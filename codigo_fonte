@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int menu_inicial();
+void menu_01();
+
+void main() {
+    int codigo;
+    codigo = menu_inicial();
+    
+    switch(codigo){
+        case 1:
+            menu_01();
+    }
+    
+    return;
+}
+
+int menu_inicial(){
+    int codigo;
+    printf ("Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n");
+    printf ("1 - Lançar gastos\n");
+    printf ("2 - Lançar Verba Recebida\n"); 
+    printf ("3 - Consulta de Gastos Mensais\n");
+    printf ("4 – Exportar Relatório de Prestação de Contas\n");
+    printf("Codigo: ");
+    scanf ("%i", &codigo);
+    
+    system("clear");
+    
+    return (codigo);
+}
+
+void menu_01(){
+    //Funcao para lancar gastos no BD
+    
+    int categoria, documento, valor;
+    char data[10], descricao[100], favorecido[50];
+    
+    printf ("Insira as informacoes solicitadas abaixo: \n");
+    printf ("Categoria:\n");
+    printf ("1 – RH\n");
+    printf ("2 – Encargos Sociais\n");
+    printf ("3 – Fundo Reserva\n");
+    printf ("4 - Alimentação\n");  
+    printf ("5 – Material Pedagógico\n");
+    printf ("6 – Concessionária\n"); 
+    printf ("7 – Oficineiro\n");
+    printf ("8 – Outras Despesas\n");
+    scanf("%i", &categoria);
+    
+    //Funcao de escrever no BD aqui
+    
+    printf ("Data do Documento (DD/MM/AAAA)\n"); 
+    scanf("%s", data);
+    //Funcao de escrever no BD aqui
+    printf ("Número do Documento \n ");
+    scanf("%i", &documento);
+    //Funcao de escrever no BD aqui
+    printf ("Descrição \n ");
+    scanf("%s", descricao);
+    //Funcao de escrever no BD aqui
+    printf ("Nome do Favorecido \n"); 
+    scanf("%s", favorecido);
+    //Funcao de escrever no BD aqui
+    printf ("Valor\n"); 
+    scanf("%i", &valor);
+    //Funcao de escrever no BD aqui
+    
+    return;
+}
