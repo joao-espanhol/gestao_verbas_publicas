@@ -7,45 +7,55 @@ void menu_01();
 void menu_02();
 void menu_03();
 void menu_04();
+void cabecalho();
 
 void main() {
 
     setlocale(LC_ALL, "Portuguese");
 
-    int codigo;
-    codigo = menu_inicial();
 
-    switch(codigo){
-        case 1:
-            menu_01();
-            break;
-        case 2:
-             menu_02();
-             break;
-        case 3:
-            menu_03();
-            break;
-        case 4:
-            menu_04();
-            break;
-        default:
-            printf("Escreva uma opção válida");
+    int codigo = 1;
+    while(codigo != 0){
+
+        codigo = menu_inicial();
+
+        switch(codigo){
+            case 1:
+                menu_01();
+                break;
+            case 2:
+                 menu_02();
+                 break;
+            case 3:
+                menu_03();
+                break;
+            case 4:
+                menu_04();
+                break;
+            case 0:
+                break;
+            default:
+                printf("Escreva uma opÃ§Ã£o vÃ¡lida");
+        }
     }
 
-    return;
+return;
 }
 
 int menu_inicial(){
     int codigo;
-    printf ("Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n");
-    printf ("1 - Lançar gastos\n");
-    printf ("2 - Lançar Verba Recebida\n");
+    cabecalho();
+    printf ("Bem-vindo(a)! Escolha uma das opÃ§Ãµes abaixo para prosseguir:\n");
+    printf ("1 - LanÃ§ar gastos\n");
+    printf ("2 - LanÃ§ar Verba Recebida\n");
     printf ("3 - Consulta de Gastos Mensais\n");
-    printf ("4 – Exportar Relatório de Prestação de Contas\n");
+    printf ("4 â€“ Exportar RelatÃ³rio de PrestaÃ§Ã£o de Contas\n");
+    printf ("0 - Sair\n");
     printf("Codigo: ");
     scanf ("%i", &codigo);
 
     system("cls");
+    cabecalho();
 
     return (codigo);
 }
@@ -58,33 +68,38 @@ void menu_01(){
 
     printf ("Insira as informacoes solicitadas abaixo: \n");
     printf ("Categoria:\n");
-    printf ("1 – RH\n");
-    printf ("2 – Encargos Sociais\n");
-    printf ("3 – Fundo Reserva\n");
-    printf ("4 - Alimentação\n");
-    printf ("5 – Material Pedagógico\n");
-    printf ("6 – Concessionária\n");
-    printf ("7 – Oficineiro\n");
-    printf ("8 – Outras Despesas\n");
+    printf ("1 â€“ RH\n");
+    printf ("2 â€“ Encargos Sociais\n");
+    printf ("3 â€“ Fundo Reserva\n");
+    printf ("4 - AlimentaÃ§Ã£o\n");
+    printf ("5 â€“ Material PedagÃ³gico\n");
+    printf ("6 â€“ ConcessionÃ¡ria\n");
+    printf ("7 â€“ Oficineiro\n");
+    printf ("8 â€“ Outras Despesas\n");
     scanf("%i", &categoria);
     system("cls");
+    cabecalho();
     //Funcao de escrever no BD aqui
 
     printf ("Data do Documento (DD/MM/AAAA)\n");
     scanf("%s", data);
     system("cls");
+    cabecalho();
     //Funcao de escrever no BD aqui
-    printf ("Número do Documento \n ");
+    printf ("NÃºmero do Documento \n ");
     scanf("%i", &documento);
     system("cls");
+    cabecalho();
     //Funcao de escrever no BD aqui
-    printf ("Descrição \n ");
+    printf ("DescriÃ§Ã£o \n ");
     scanf("%s", descricao);
     system("cls");
+    cabecalho();
     //Funcao de escrever no BD aqui
     printf ("Nome do Favorecido \n");
     scanf("%s", favorecido);
     system("cls");
+    cabecalho();
     //Funcao de escrever no BD aqui
     printf ("Valor\nR$");
     scanf("%i", &valor);
@@ -100,10 +115,11 @@ void menu_02(){
     char data2[15], descricao2[100];
 
     printf("Escolha uma das opcoes: \n");
-    printf("1 - Lançar Verba Recebida\n");
-    printf("2 – Consultar Limite de Verba\n");
+    printf("1 - LanÃ§ar Verba Recebida\n");
+    printf("2 â€“ Consultar Limite de Verba\n");
     scanf("%i", &opcao2);
     system("cls");
+    cabecalho();
 
     switch(opcao2){
         case 1:
@@ -111,10 +127,12 @@ void menu_02(){
             printf("Data do Recebimento (DD/MM/AAAA)\n");
             scanf("%s", data2);
             system("cls");
+            cabecalho();
             //Funcao de escrever no BD aqui
-            printf("Descrição\n");
+            printf("DescriÃ§Ã£o\n");
             scanf("%s", descricao2);
             system("cls");
+            cabecalho();
             //Funcao de escrever no BD aqui
             printf("Valor\nR$");
             scanf("%i", &valor2);
@@ -123,9 +141,9 @@ void menu_02(){
             break;
         case 2:
             //Funcao para verificar o saldo disponivel
-            printf("Verba Disponível %i \n", verba);
+            printf("Verba DisponÃ­vel %i \n", verba);
             printf("Porcentagem de Verba Gasta %i \n", verba_gasta);
-            printf("Tempo até a próxima verba %i \n", proxima_verba);
+            printf("Tempo atÃ© a prÃ³xima verba %i \n", proxima_verba);
             break;
         default:
             printf("Digite um codigo valido");
@@ -138,25 +156,31 @@ void menu_03(){
     int gasto_rh, disponivel_rh, gasto_esociais, disponivel_esociais, gasto_fundo, disponivel_fundo,
     gasto_alimentacao, disponivel_alimentacao, gasto_pedagogico, disponivel_pedagogico, gasto_concessionaria,
     disponivel_concessionaria, gasto_oficineiro, disponivel_oficineiro, gasto_outros, disponivel_outros;
+    int sair = 1;
 
-    printf("Gastos Mensais por Categoria:") ;
-    printf("\n1 – RH ------------------------------------------ Valor Gasto:", gasto_rh,
-           "Valor Disponível: \n",disponivel_rh);
-    printf("\n2 – Encargos Sociais ------------------------ Valor Gasto:", gasto_esociais,
-           "Valor Disponível: \n", disponivel_esociais);
-    printf("\n3 – Fundo Reserva -------------------------- Valor Gasto:", gasto_fundo,
-           "Valor Disponível:\n", disponivel_fundo);
-    printf("\n4 - Alimentação ----------------------------- Valor Gasto:", gasto_alimentacao,
-           "Valor Disponível:\n", disponivel_alimentacao);
-    printf("\n5 – Material Pedagógico ------------------ Valor Gasto:", gasto_pedagogico,
-           "Valor Disponível:\n", disponivel_pedagogico);
-    printf("\n6 – Concessionária ------------------------- Valor Gasto:",gasto_concessionaria,
-           "Valor Disponível:\n", disponivel_concessionaria);
-    printf("\n7 – Oficineiro -------------------------------- Valor Gasto:", gasto_oficineiro,
-           "Valor Disponível:\n", disponivel_oficineiro);
-    printf("\n8 – Outras Despesas ----------------------- Valor Gasto:", gasto_outros,
-           "Valor Disponível:\n", disponivel_outros);
-
+    while(sair != 0){
+        printf("Gastos Mensais por Categoria:") ;
+        printf("\n1 â€“ RH ------------------------------------------ Valor Gasto:", gasto_rh,
+               "Valor DisponÃ­vel: \n",disponivel_rh);
+        printf("\n2 â€“ Encargos Sociais ------------------------ Valor Gasto:", gasto_esociais,
+               "Valor DisponÃ­vel: \n", disponivel_esociais);
+        printf("\n3 â€“ Fundo Reserva -------------------------- Valor Gasto:", gasto_fundo,
+               "Valor DisponÃ­vel:\n", disponivel_fundo);
+        printf("\n4 - AlimentaÃ§Ã£o ----------------------------- Valor Gasto:", gasto_alimentacao,
+               "Valor DisponÃ­vel:\n", disponivel_alimentacao);
+        printf("\n5 â€“ Material PedagÃ³gico ------------------ Valor Gasto:", gasto_pedagogico,
+               "Valor DisponÃ­vel:\n", disponivel_pedagogico);
+        printf("\n6 â€“ ConcessionÃ¡ria ------------------------- Valor Gasto:",gasto_concessionaria,
+               "Valor DisponÃ­vel:\n", disponivel_concessionaria);
+        printf("\n7 â€“ Oficineiro -------------------------------- Valor Gasto:", gasto_oficineiro,
+               "Valor DisponÃ­vel:\n", disponivel_oficineiro);
+        printf("\n8 â€“ Outras Despesas ----------------------- Valor Gasto:", gasto_outros,
+               "Valor DisponÃ­vel:\n", disponivel_outros);
+        printf("\nPara sair, digite 0\n");
+        scanf("%i", &sair);
+        system("cls");
+    }
+    system("cls");
 return;
 }
 
@@ -164,12 +188,20 @@ void menu_04(){
     //Exporta relatorio do periodo
     char data_de, data_ate;
 
-    printf("Exportar relatório para prestação de contas, selecione o período de tempo que deseja consultar:\n");
+    printf("Exportar relatÃ³rio para prestaÃ§Ã£o de contas, selecione o perÃ­odo de tempo que deseja consultar:\n");
 
     printf("De: DD/MM/AAAA\n");
     scanf("%s", &data_de);
-    printf("Até: DD/MM/AAAA\n");
+    printf("AtÃ©: DD/MM/AAAA\n");
     scanf("%s", &data_ate);
 
+return;
+}
+
+void cabecalho(){
+    //Cabecalho do Sistema
+    printf("************************************");
+    printf("\nSISTEMA DE GESTAO DE VERBAS PUBLICAS");
+    printf("\n************************************\n");
 return;
 }
