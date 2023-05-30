@@ -113,6 +113,7 @@ void menu_02(){
     // Funcao para lancar verbas recebidas ou consultar verbas
     int opcao2, valor2, verba, verba_gasta, proxima_verba;
     char data2[15], descricao2[100];
+    int sair = 1;
 
     printf("Escolha uma das opcoes: \n");
     printf("1 - Lançar Verba Recebida\n");
@@ -122,6 +123,7 @@ void menu_02(){
     cabecalho();
 
     switch(opcao2){
+
         case 1:
             //Lanca a verba no BD
             printf("Data do Recebimento (DD/MM/AAAA)\n");
@@ -141,9 +143,14 @@ void menu_02(){
             break;
         case 2:
             //Funcao para verificar o saldo disponivel
-            printf("Verba Disponível %i \n", verba);
-            printf("Porcentagem de Verba Gasta %i \n", verba_gasta);
-            printf("Tempo até a próxima verba %i \n", proxima_verba);
+            while(sair != 0){
+                printf("Verba Disponível %i \n", verba);
+                printf("Porcentagem de Verba Gasta %i \n", verba_gasta);
+                printf("Tempo até a próxima verba %i \n", proxima_verba);
+                printf("\nPara sair, digite 0\n");
+                scanf("%i", &sair);
+                system("cls");
+            }
             break;
         default:
             printf("Digite um codigo valido");
