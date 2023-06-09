@@ -9,6 +9,8 @@ void menu_03();
 void menu_04();
 void cabecalho();
 
+teste1
+
 void main() {
 
     setlocale(LC_ALL, "Portuguese");
