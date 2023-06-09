@@ -63,8 +63,8 @@ int menu_inicial(){
 void menu_01(){
     //Funcao para lancar gastos no BD
 
-    int categoria, documento, valor;
-    char data[10], descricao[100], favorecido[50];
+    int categoria, documento, valor, dia, mes, ano;
+    char descricao[100], favorecido[50];
 
     printf ("Insira as informacoes solicitadas abaixo: \n");
     printf ("Categoria:\n");
@@ -82,7 +82,7 @@ void menu_01(){
     //Funcao de escrever no BD aqui
 
     printf ("Data do Documento (DD/MM/AAAA)\n");
-    scanf("%s", data);
+    scanf("%d/%d/%d", &dia,&mes,&ano);   
     system("cls");
     cabecalho();
     //Funcao de escrever no BD aqui
@@ -111,8 +111,8 @@ void menu_01(){
 
 void menu_02(){
     // Funcao para lancar verbas recebidas ou consultar verbas
-    int opcao2, valor2, verba, verba_gasta, proxima_verba;
-    char data2[15], descricao2[100];
+    int opcao2, valor2, verba, verba_gasta, proxima_verba, dia1, mes1, ano1;
+    char descricao2[100];
     int sair = 1;
 
     printf("Escolha uma das opcoes: \n");
@@ -127,7 +127,7 @@ void menu_02(){
         case 1:
             //Lanca a verba no BD
             printf("Data do Recebimento (DD/MM/AAAA)\n");
-            scanf("%s", data2);
+            scanf("%d/%d/%d", &dia1,&mes1,&ano1); 
             system("cls");
             cabecalho();
             //Funcao de escrever no BD aqui
@@ -193,14 +193,14 @@ return;
 
 void menu_04(){
     //Exporta relatorio do periodo
-    char data_de, data_ate;
+    int dia_de, mes_de, ano_de, dia_ate, mes_ate, ano_ate;
 
     printf("Exportar relatório para prestação de contas, selecione o período de tempo que deseja consultar:\n");
 
     printf("De: DD/MM/AAAA\n");
-    scanf("%s", &data_de);
+    scanf("%d/%d/%d", &dia_de,&mes_de,&ano_de); 
     printf("Até: DD/MM/AAAA\n");
-    scanf("%s", &data_ate);
+    scanf("%d/%d/%d", &dia_ate,&mes_ate,&ano_ate); 
 
 return;
 }
