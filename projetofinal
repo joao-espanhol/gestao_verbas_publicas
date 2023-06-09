@@ -1,0 +1,329 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <string.h>
+#include <time.h>
+
+int login();
+int menu_perfil_1();
+int menu_perfil_2();
+void menu_01();
+void menu_02();
+void menu_03();
+void cabecalho();
+void escreve_BD(info, nome_arq);
+void fim_lancamento(nome_arq);
+
+void main() {
+
+    setlocale(LC_ALL, "Portuguese");
+
+    int codigo = 1;
+    int permissao;
+
+    permissao = login();
+    printf("%i", permissao);
+
+    switch(permissao){
+        case 1:
+        while(codigo != 0){
+            codigo = menu_perfil_1();
+            switch(codigo){
+                case 1:
+                    menu_01();
+                    system("cls");
+                    break;
+                case 2:
+                     menu_02();
+                     system("cls");
+                     break;
+                case 3:
+                    menu_03();
+                    system("cls");
+                    break;
+                case 0:
+                    break;
+                default:
+                    printf("Escreva uma opção válida\n");
+                    system("cls");
+            }
+        }
+        break;
+        case 2:
+        while(codigo != 0){
+
+            codigo = menu_perfil_2();
+
+            switch(codigo){
+                case 1:
+                    menu_03();
+                    system("cls");
+                    break;
+                case 0:
+                    break;
+                default:
+                    printf("Escreva uma opção válida\n");
+                    system("cls");
+            }
+        }
+        break;
+    }
+return;
+}
+
+int menu_perfil_1(){
+    int codigo;
+    cabecalho();
+    printf ("Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n");
+    printf ("1 - Lançar Gastos\n");
+    printf ("2 - Lançar Limite de Verba\n");
+    printf ("3 - Consulta de Limite Disponivel\n");
+    printf ("0 - Sair\n");
+    printf("Codigo: ");
+    scanf ("%i", &codigo);
+
+    system("cls");
+    cabecalho();
+
+    return (codigo);
+}
+int menu_perfil_2(){
+    int codigo;
+    cabecalho();
+    printf ("Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n");
+    printf ("1 - Consulta de Limite Disponivel\n");
+    printf ("0 - Sair\n");
+    printf("Codigo: ");
+    scanf ("%i", &codigo);
+
+    system("cls");
+    cabecalho();
+
+    return (codigo);
+}
+
+void menu_01(){
+    //Funcao para lancar gastos no BD
+
+    char nome_arq[100] = "Lancamentos.txt";
+    int categoria, documento, dia, mes, ano;
+    float valor;
+    char descricao[100], favorecido[50], info[100], data[11];
+
+    //CATEGORIA
+    printf ("Insira as informacoes solicitadas abaixo: \n");
+    printf ("Categoria:\n");
+    printf ("1 – RH\n");
+    printf ("2 – Encargos Sociais\n");
+    printf ("3 – Fundo Reserva\n");
+    printf ("4 - Alimentação\n");
+    printf ("5 – Material Pedagógico\n");
+    printf ("6 – Concessionária\n");
+    printf ("7 – Oficineiro\n");
+    printf ("8 – Outras Despesas\n");
+    scanf("%i", &categoria);
+        sprintf(info, "%i", categoria);
+        escreve_BD(info, nome_arq);
+    system("cls");
+    cabecalho();
+
+    //DATA
+    printf ("Data do Documento (DD/MM/AAAA)\n");
+    scanf("%d/%d/%d", &dia,&mes,&ano);
+        sprintf(info, "%d", dia);
+        escreve_BD(info, nome_arq);
+        sprintf(info, "%d", mes);
+        escreve_BD(info, nome_arq);
+        sprintf(info, "%d", ano);
+        escreve_BD(info, nome_arq);
+    system("cls");
+    cabecalho();
+
+    //NUMERO DO DOCUMENTO
+    printf ("Número do Documento \n ");
+    scanf("%i", &documento);
+        sprintf(info, "%i", documento);
+        escreve_BD(info, nome_arq);
+    system("cls");
+    cabecalho();
+
+    //DESCRICAO
+    printf ("Descrição \n ");
+    scanf(" %[^\n]", descricao);
+        strcpy(info, descricao);
+        escreve_BD(info, nome_arq);
+    system("cls");
+    cabecalho();
+
+    //FAVORECIDO
+    printf ("Nome do Favorecido \n");
+    scanf(" %[^\n]", favorecido);
+        strcpy(info, favorecido);
+        escreve_BD(info, nome_arq);
+    system("cls");
+    cabecalho();
+
+    //VALOR
+    printf ("Valor\nR$");
+    scanf("%f", &valor);
+        sprintf(info, "%f", (valor*(-1)));
+        escreve_BD(info, nome_arq);
+    system("cls");
+    fim_lancamento(nome_arq);
+
+    return;
+}
+
+void menu_02(){
+    // Funcao para lancar verbas recebidas ou consultar verbas
+    char nome_arq[100] = "Lancamentos.txt";
+    int opcao2, dia1, mes1, ano1, categoria;
+    float valor2;
+    char info[100];
+
+
+            //Lanca a verba no BD
+    printf ("Insira as informacoes solicitadas abaixo: \n");
+    printf ("Categoria:\n");
+    printf ("1 – RH\n");
+    printf ("2 – Encargos Sociais\n");
+    printf ("3 – Fundo Reserva\n");
+    printf ("4 - Alimentação\n");
+    printf ("5 – Material Pedagógico\n");
+    printf ("6 – Concessionária\n");
+    printf ("7 – Oficineiro\n");
+    printf ("8 – Outras Despesas\n");
+    scanf("%i", &categoria);
+        sprintf(info, "%i", categoria);
+        escreve_BD(info, nome_arq);
+    system("cls");
+    cabecalho();
+
+    printf("Data do Recebimento (DD/MM/AAAA)\n");
+    scanf("%d/%d/%d", &dia1,&mes1,&ano1);
+        sprintf(info, "%d", dia1);
+        escreve_BD(info, nome_arq);
+        sprintf(info, "%d", mes1);
+        escreve_BD(info, nome_arq);
+        sprintf(info, "%d", ano1);
+        escreve_BD(info, nome_arq);
+    system("cls");
+    cabecalho();
+
+    printf("Data do Encerramento da Verba (DD/MM/AAAA)\n");
+    scanf("%d/%d/%d", &dia1,&mes1,&ano1);
+        sprintf(info, "%d", dia1);
+        escreve_BD(info, nome_arq);
+        sprintf(info, "%d", mes1);
+        escreve_BD(info, nome_arq);
+        sprintf(info, "%d", ano1);
+        escreve_BD(info, nome_arq);
+    system("cls");
+    cabecalho();
+
+    printf("Valor\nR$");
+    scanf("%f", &valor2);
+        sprintf(info, "%f", valor2);
+        escreve_BD(info, nome_arq);
+    system("cls");
+
+    fim_lancamento(nome_arq);
+
+return;
+}
+
+void menu_03(){
+    // Verifica a verba disponivel por categoria
+    int gasto_rh, disponivel_rh, gasto_esociais, disponivel_esociais, gasto_fundo, disponivel_fundo,
+    gasto_alimentacao, disponivel_alimentacao, gasto_pedagogico, disponivel_pedagogico, gasto_concessionaria,
+    disponivel_concessionaria, gasto_oficineiro, disponivel_oficineiro, gasto_outros, disponivel_outros;
+    int sair = 1;
+
+    while(sair != 0){
+        printf("Gastos Mensais por Categoria:") ;
+        printf("\n1 – RH ------------------------------------------ Valor Gasto:", gasto_rh,
+               "Valor Disponível: \n",disponivel_rh);
+        printf("\n2 – Encargos Sociais ------------------------ Valor Gasto:", gasto_esociais,
+               "Valor Disponível: \n", disponivel_esociais);
+        printf("\n3 – Fundo Reserva -------------------------- Valor Gasto:", gasto_fundo,
+               "Valor Disponível:\n", disponivel_fundo);
+        printf("\n4 - Alimentação ----------------------------- Valor Gasto:", gasto_alimentacao,
+               "Valor Disponível:\n", disponivel_alimentacao);
+        printf("\n5 – Material Pedagógico ------------------ Valor Gasto:", gasto_pedagogico,
+               "Valor Disponível:\n", disponivel_pedagogico);
+        printf("\n6 – Concessionária ------------------------- Valor Gasto:",gasto_concessionaria,
+               "Valor Disponível:\n", disponivel_concessionaria);
+        printf("\n7 – Oficineiro -------------------------------- Valor Gasto:", gasto_oficineiro,
+               "Valor Disponível:\n", disponivel_oficineiro);
+        printf("\n8 – Outras Despesas ----------------------- Valor Gasto:", gasto_outros,
+               "Valor Disponível:\n", disponivel_outros);
+        printf("\nPara sair, digite 0\n");
+        scanf("%i", &sair);
+        system("cls");
+    }
+    system("cls");
+return;
+}
+
+void cabecalho(){
+    //Cabecalho do Sistema
+    printf("************************************");
+    printf("\nSISTEMA DE GESTAO DE VERBAS PUBLICAS");
+    printf("\n************************************\n");
+return;
+}
+
+void escreve_BD(info, nome_arq){
+    //Escreve as informacoes digitadas no BD
+    FILE* fp;
+    fp = fopen(nome_arq, "a");
+    fprintf(fp, "%s", info);
+    fprintf(fp, "|");
+    fclose(fp);
+return;
+}
+
+void fim_lancamento(nome_arq){
+    //Termina uma linha de lancamento
+    FILE* fp;
+    fp = fopen(nome_arq, "a");
+    fprintf(fp, "|\n");
+    fclose(fp);
+return;
+}
+
+int login(){
+
+    int login;
+    int senha;
+    int i = 1;
+    int permissao;
+
+    cabecalho ();
+    printf ("Seja bem-vindo (a)!\n");
+    do{
+    printf ("Digite seu login: \n");
+    scanf ("%i", &login);
+
+    printf ("Digite sua senha: \n");
+    scanf ("%i", &senha);
+
+        if (login == 123 && senha == 123){
+            printf ("Login feito com sucesso!\n");
+            system("cls");
+            permissao = 1;
+            i = 0;
+        }
+        else if(login == 456 && senha == 456){
+            printf ("Login feito com sucesso!\n");
+            system("cls");
+            permissao = 2;
+            i = 0;
+        }
+        else{
+            system("cls");
+            printf ("Usuário nao cadastrado! Tente novamente\n");
+        }
+    }while(i!=0);
+return(permissao);
+}
