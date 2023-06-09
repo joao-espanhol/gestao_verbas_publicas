@@ -5,10 +5,11 @@
 #include <time.h>
 
 int login();
+void mes_lancamento();
 int menu_perfil_1();
 int menu_perfil_2();
-void menu_01();
-void menu_02();
+void menu_01(nome_pasta);
+void menu_02(nome_pasta);
 void menu_03();
 void cabecalho();
 void escreve_BD(info, nome_arq);
@@ -20,21 +21,30 @@ void main() {
 
     int codigo = 1;
     int permissao;
-
+    char nome_pasta[30];
+    int mes, ano;
+    char teste;
+    char nome_arq[30], cria_pasta[30];
     permissao = login();
-    printf("%i", permissao);
+
 
     switch(permissao){
         case 1:
+            printf("Digite o mês e ano que deseja trabalhar(mm/aaaa): \n");
+            scanf("%d/%d", &mes,&ano);
+            sprintf(nome_pasta, "%d-%d", ano, mes);
+            sprintf(cria_pasta, "mkdir %s", nome_pasta);
+            system(cria_pasta);
+            system("cls");
         while(codigo != 0){
             codigo = menu_perfil_1();
             switch(codigo){
                 case 1:
-                    menu_01();
+                    menu_01(nome_pasta);
                     system("cls");
                     break;
                 case 2:
-                     menu_02();
+                     menu_02(nome_pasta);
                      system("cls");
                      break;
                 case 3:
@@ -71,6 +81,49 @@ void main() {
 return;
 }
 
+
+int login(){
+
+    int login;
+    int senha;
+    int i = 1;
+    int permissao;
+
+    cabecalho ();
+    printf ("Seja bem-vindo (a)!\n");
+    do{
+    printf ("Digite seu login: \n");
+    scanf ("%i", &login);
+
+    printf ("Digite sua senha: \n");
+    scanf ("%i", &senha);
+
+        if (login == 123 && senha == 123){
+            printf ("Login feito com sucesso!\n");
+            system("cls");
+            permissao = 1;
+            i = 0;
+        }
+        else if(login == 456 && senha == 456){
+            printf ("Login feito com sucesso!\n");
+            system("cls");
+            permissao = 2;
+            i = 0;
+        }
+        else{
+            system("cls");
+            printf ("Usuário nao cadastrado! Tente novamente\n");
+        }
+    }while(i!=0);
+return(permissao);
+}
+
+void mes_lancamento(){
+
+
+return;
+}
+
 int menu_perfil_1(){
     int codigo;
     cabecalho();
@@ -87,6 +140,7 @@ int menu_perfil_1(){
 
     return (codigo);
 }
+
 int menu_perfil_2(){
     int codigo;
     cabecalho();
@@ -102,13 +156,15 @@ int menu_perfil_2(){
     return (codigo);
 }
 
-void menu_01(){
+void menu_01(nome_pasta){
     //Funcao para lancar gastos no BD
 
-    char nome_arq[100] = "Lancamentos.txt";
+    char nome_arq[30];
     int categoria, documento, dia, mes, ano;
     float valor;
     char descricao[100], favorecido[50], info[100], data[11];
+
+    sprintf(nome_arq, "%s\\despesas.txt", nome_pasta);
 
     //CATEGORIA
     printf ("Insira as informacoes solicitadas abaixo: \n");
@@ -130,11 +186,7 @@ void menu_01(){
     //DATA
     printf ("Data do Documento (DD/MM/AAAA)\n");
     scanf("%d/%d/%d", &dia,&mes,&ano);
-        sprintf(info, "%d", dia);
-        escreve_BD(info, nome_arq);
-        sprintf(info, "%d", mes);
-        escreve_BD(info, nome_arq);
-        sprintf(info, "%d", ano);
+        sprintf(info, "%d/%d/%d", dia, mes, ano);
         escreve_BD(info, nome_arq);
     system("cls");
     cabecalho();
@@ -166,7 +218,7 @@ void menu_01(){
     //VALOR
     printf ("Valor\nR$");
     scanf("%f", &valor);
-        sprintf(info, "%f", (valor*(-1)));
+        sprintf(info, "%f", valor);
         escreve_BD(info, nome_arq);
     system("cls");
     fim_lancamento(nome_arq);
@@ -174,15 +226,16 @@ void menu_01(){
     return;
 }
 
-void menu_02(){
+void menu_02(nome_pasta){
     // Funcao para lancar verbas recebidas ou consultar verbas
-    char nome_arq[100] = "Lancamentos.txt";
+    char nome_arq[30];
     int opcao2, dia1, mes1, ano1, categoria;
     float valor2;
     char info[100];
 
+    sprintf(nome_arq, "%s\\verbas.txt", nome_pasta);
 
-            //Lanca a verba no BD
+    //Lanca a verba no BD
     printf ("Insira as informacoes solicitadas abaixo: \n");
     printf ("Categoria:\n");
     printf ("1 – RH\n");
@@ -195,28 +248,6 @@ void menu_02(){
     printf ("8 – Outras Despesas\n");
     scanf("%i", &categoria);
         sprintf(info, "%i", categoria);
-        escreve_BD(info, nome_arq);
-    system("cls");
-    cabecalho();
-
-    printf("Data do Recebimento (DD/MM/AAAA)\n");
-    scanf("%d/%d/%d", &dia1,&mes1,&ano1);
-        sprintf(info, "%d", dia1);
-        escreve_BD(info, nome_arq);
-        sprintf(info, "%d", mes1);
-        escreve_BD(info, nome_arq);
-        sprintf(info, "%d", ano1);
-        escreve_BD(info, nome_arq);
-    system("cls");
-    cabecalho();
-
-    printf("Data do Encerramento da Verba (DD/MM/AAAA)\n");
-    scanf("%d/%d/%d", &dia1,&mes1,&ano1);
-        sprintf(info, "%d", dia1);
-        escreve_BD(info, nome_arq);
-        sprintf(info, "%d", mes1);
-        escreve_BD(info, nome_arq);
-        sprintf(info, "%d", ano1);
         escreve_BD(info, nome_arq);
     system("cls");
     cabecalho();
@@ -290,40 +321,4 @@ void fim_lancamento(nome_arq){
     fprintf(fp, "|\n");
     fclose(fp);
 return;
-}
-
-int login(){
-
-    int login;
-    int senha;
-    int i = 1;
-    int permissao;
-
-    cabecalho ();
-    printf ("Seja bem-vindo (a)!\n");
-    do{
-    printf ("Digite seu login: \n");
-    scanf ("%i", &login);
-
-    printf ("Digite sua senha: \n");
-    scanf ("%i", &senha);
-
-        if (login == 123 && senha == 123){
-            printf ("Login feito com sucesso!\n");
-            system("cls");
-            permissao = 1;
-            i = 0;
-        }
-        else if(login == 456 && senha == 456){
-            printf ("Login feito com sucesso!\n");
-            system("cls");
-            permissao = 2;
-            i = 0;
-        }
-        else{
-            system("cls");
-            printf ("Usuário nao cadastrado! Tente novamente\n");
-        }
-    }while(i!=0);
-return(permissao);
 }
