@@ -5,7 +5,6 @@
 #include <time.h>
 
 int login();
-void mes_lancamento();
 int menu_perfil_1();
 int menu_perfil_2();
 void menu_01(nome_pasta);
@@ -30,6 +29,7 @@ void main() {
 
     switch(permissao){
         case 1:
+            cabecalho();
             printf("Digite o mês e ano que deseja trabalhar(mm/aaaa): \n");
             scanf("%d/%d", &mes,&ano);
             sprintf(nome_pasta, "%d-%d", ano, mes);
@@ -118,12 +118,6 @@ int login(){
 return(permissao);
 }
 
-void mes_lancamento(){
-
-
-return;
-}
-
 int menu_perfil_1(){
     int codigo;
     cabecalho();
@@ -160,7 +154,7 @@ void menu_01(nome_pasta){
     //Funcao para lancar gastos no BD
 
     char nome_arq[30];
-    int categoria, documento, dia, mes, ano;
+    int categoria, documento, dia;
     float valor;
     char descricao[100], favorecido[50], info[100], data[11];
 
@@ -178,48 +172,48 @@ void menu_01(nome_pasta){
     printf ("7 – Oficineiro\n");
     printf ("8 – Outras Despesas\n");
     scanf("%i", &categoria);
-        sprintf(info, "%i", categoria);
-        escreve_BD(info, nome_arq);
+    sprintf(info, "%i", categoria);
+    escreve_BD(info, nome_arq);
     system("cls");
     cabecalho();
 
     //DATA
-    printf ("Data do Documento (DD/MM/AAAA)\n");
-    scanf("%d/%d/%d", &dia,&mes,&ano);
-        sprintf(info, "%d/%d/%d", dia, mes, ano);
-        escreve_BD(info, nome_arq);
+    printf ("Dia do Documento\n");
+    scanf("%d", &dia);
+    sprintf(info, "%d", dia);
+    escreve_BD(info, nome_arq);
     system("cls");
     cabecalho();
 
     //NUMERO DO DOCUMENTO
     printf ("Número do Documento \n ");
     scanf("%i", &documento);
-        sprintf(info, "%i", documento);
-        escreve_BD(info, nome_arq);
+    sprintf(info, "%i", documento);
+    escreve_BD(info, nome_arq);
     system("cls");
     cabecalho();
 
     //DESCRICAO
     printf ("Descrição \n ");
     scanf(" %[^\n]", descricao);
-        strcpy(info, descricao);
-        escreve_BD(info, nome_arq);
+    strcpy(info, descricao);
+    escreve_BD(info, nome_arq);
     system("cls");
     cabecalho();
 
     //FAVORECIDO
     printf ("Nome do Favorecido \n");
     scanf(" %[^\n]", favorecido);
-        strcpy(info, favorecido);
-        escreve_BD(info, nome_arq);
+    strcpy(info, favorecido);
+    escreve_BD(info, nome_arq);
     system("cls");
     cabecalho();
 
     //VALOR
     printf ("Valor\nR$");
     scanf("%f", &valor);
-        sprintf(info, "%f", valor);
-        escreve_BD(info, nome_arq);
+    sprintf(info, "%f", valor);
+    escreve_BD(info, nome_arq);
     system("cls");
     fim_lancamento(nome_arq);
 
@@ -227,39 +221,39 @@ void menu_01(nome_pasta){
 }
 
 void menu_02(nome_pasta){
-    // Funcao para lancar verbas recebidas ou consultar verbas
+    // Funcao para lancar verbas recebidas
     char nome_arq[30];
     int opcao2, dia1, mes1, ano1, categoria;
     float valor2;
     char info[100];
 
     sprintf(nome_arq, "%s\\verbas.txt", nome_pasta);
+    //Apaga o conteudo da pasta
+    FILE* fp;
+    fp = fopen(nome_arq, "w");
 
-    //Lanca a verba no BD
-    printf ("Insira as informacoes solicitadas abaixo: \n");
-    printf ("Categoria:\n");
-    printf ("1 – RH\n");
-    printf ("2 – Encargos Sociais\n");
-    printf ("3 – Fundo Reserva\n");
-    printf ("4 - Alimentação\n");
-    printf ("5 – Material Pedagógico\n");
-    printf ("6 – Concessionária\n");
-    printf ("7 – Oficineiro\n");
-    printf ("8 – Outras Despesas\n");
-    scanf("%i", &categoria);
+    char descr_categorias[8][30] = {"1 – RH\n", "2 - Encargos Sociais\n", "3 – Fundo Reserva\n", "4 - Alimentação\n",
+    "5 – Material Pedagógico\n", "6 – Concessionária\n", "7 – Oficineiro\n", "8 – Outras Despesas\n"};
+
+    //Lanca as verbas no BD
+    for(int i = 0; i<8; i++){
+
+        printf("%s", descr_categorias[i]);
+        categoria = i+1;
         sprintf(info, "%i", categoria);
         escreve_BD(info, nome_arq);
-    system("cls");
-    cabecalho();
+        system("cls");
+        cabecalho();
 
-    printf("Valor\nR$");
-    scanf("%f", &valor2);
+        printf("%s", descr_categorias[i]);
+        printf("Valor\nR$");
+        scanf("%f", &valor2);
         sprintf(info, "%f", valor2);
         escreve_BD(info, nome_arq);
-    system("cls");
+        system("cls");
 
-    fim_lancamento(nome_arq);
-
+        fim_lancamento(nome_arq);
+    }
 return;
 }
 
