@@ -9,7 +9,9 @@ int menu_perfil_1();
 int menu_perfil_2();
 void menu_01(nome_pasta);
 void menu_02(nome_pasta);
-void menu_03();
+void menu_03(nome_pasta);
+void menu_04(nome_pasta);
+void menu_05(nome_pasta);
 void cabecalho();
 void escreve_BD(info, nome_arq);
 void fim_lancamento(nome_arq);
@@ -24,14 +26,16 @@ void main() {
     int mes, ano;
     char teste;
     char nome_arq[30], cria_pasta[30];
-    permissao = login();
 
+    permissao = login();
 
     switch(permissao){
         case 1:
             cabecalho();
-            printf("Digite o mês e ano que deseja trabalhar(mm/aaaa): \n");
-            scanf("%d/%d", &mes,&ano);
+            printf("Digite o mês que deseja trabalhar: \n");//VALIDAR
+            scanf("%d", &mes);
+            printf("Digite o ano que deseja trabalhar: \n");//VALIDAR
+            scanf("%d", &ano);
             sprintf(nome_pasta, "%d-%d", ano, mes);
             sprintf(cria_pasta, "mkdir %s", nome_pasta);
             system(cria_pasta);
@@ -48,9 +52,15 @@ void main() {
                      system("cls");
                      break;
                 case 3:
-                    menu_03();
+                    menu_03(nome_pasta);
                     system("cls");
                     break;
+                case 4:
+                    menu_04(nome_pasta);
+                    system("cls");
+                case 5:
+                    menu_05(nome_pasta);
+                    system("cls");
                 case 0:
                     break;
                 default:
@@ -124,7 +134,9 @@ int menu_perfil_1(){
     printf ("Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n");
     printf ("1 - Lançar Gastos\n");
     printf ("2 - Lançar Limite de Verba\n");
-    printf ("3 - Consulta de Limite Disponivel\n");
+    printf ("3 - Consultar Limite Disponivel\n");
+    printf ("4 - Consultar Lançamentos\n");
+    printf ("5 - Alterar Lançamentos\n");
     printf ("0 - Sair\n");
     printf("Codigo: ");
     scanf ("%i", &codigo);
@@ -156,9 +168,11 @@ void menu_01(nome_pasta){
     char nome_arq[30];
     int categoria, documento, dia;
     float valor;
-    char descricao[100], favorecido[50], info[100], data[11];
+    char descricao[100], favorecido[50], info[100] = "", data[11];
 
     sprintf(nome_arq, "%s\\despesas.txt", nome_pasta);
+
+    escreve_BD(info, nome_arq);
 
     //CATEGORIA
     printf ("Insira as informacoes solicitadas abaixo: \n");
@@ -257,36 +271,75 @@ void menu_02(nome_pasta){
 return;
 }
 
-void menu_03(){
+void menu_03(nome_pasta){
     // Verifica a verba disponivel por categoria
-    int gasto_rh, disponivel_rh, gasto_esociais, disponivel_esociais, gasto_fundo, disponivel_fundo,
+    float gasto_rh, disponivel_rh, gasto_esociais, disponivel_esociais, gasto_fundo, disponivel_fundo,
     gasto_alimentacao, disponivel_alimentacao, gasto_pedagogico, disponivel_pedagogico, gasto_concessionaria,
     disponivel_concessionaria, gasto_oficineiro, disponivel_oficineiro, gasto_outros, disponivel_outros;
-    int sair = 1;
 
-    while(sair != 0){
-        printf("Gastos Mensais por Categoria:") ;
-        printf("\n1 – RH ------------------------------------------ Valor Gasto:", gasto_rh,
-               "Valor Disponível: \n",disponivel_rh);
-        printf("\n2 – Encargos Sociais ------------------------ Valor Gasto:", gasto_esociais,
-               "Valor Disponível: \n", disponivel_esociais);
-        printf("\n3 – Fundo Reserva -------------------------- Valor Gasto:", gasto_fundo,
-               "Valor Disponível:\n", disponivel_fundo);
-        printf("\n4 - Alimentação ----------------------------- Valor Gasto:", gasto_alimentacao,
-               "Valor Disponível:\n", disponivel_alimentacao);
-        printf("\n5 – Material Pedagógico ------------------ Valor Gasto:", gasto_pedagogico,
-               "Valor Disponível:\n", disponivel_pedagogico);
-        printf("\n6 – Concessionária ------------------------- Valor Gasto:",gasto_concessionaria,
-               "Valor Disponível:\n", disponivel_concessionaria);
-        printf("\n7 – Oficineiro -------------------------------- Valor Gasto:", gasto_oficineiro,
-               "Valor Disponível:\n", disponivel_oficineiro);
-        printf("\n8 – Outras Despesas ----------------------- Valor Gasto:", gasto_outros,
-               "Valor Disponível:\n", disponivel_outros);
-        printf("\nPara sair, digite 0\n");
-        scanf("%i", &sair);
+    char nome_arq[50];
+
+    sprintf(nome_arq, "%s\\despesas.txt", nome_pasta);
+    FILE* fp;
+    fp = fopen(nome_arq, "r");
+
+    printf("Gastos Mensais por Categoria:") ;
+    printf("\n1 – RH ----------------------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            gasto_rh,disponivel_rh);
+    printf("\n2 – Encargos Sociais --------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            gasto_esociais,disponivel_esociais);
+    printf("\n3 – Fundo Reserva ------------------------ Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            gasto_fundo,disponivel_fundo);
+    printf("\n4 - Alimentação -------------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            gasto_alimentacao,disponivel_alimentacao);
+    printf("\n5 – Material Pedagógico ------------------ Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            gasto_pedagogico,disponivel_pedagogico);
+    printf("\n6 – Concessionária ----------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            gasto_concessionaria,disponivel_concessionaria);
+    printf("\n7 – Oficineiro --------------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            gasto_oficineiro,disponivel_oficineiro);
+    printf("\n8 – Outras Despesas ---------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            gasto_outros,disponivel_outros);
+        system("pause");
         system("cls");
+return;
+}
+
+void menu_04(nome_pasta){
+    //Apresenta os lançamentos realizados
+    char nome_arq[30];
+    char titulo[6][15] = {"Categoria: ", "Dia: ", "Numero: ", "Descrição: ", "Nome: ", "Valor: R$"};
+    char info;
+    int i;
+    sprintf(nome_arq, "%s\\despesas.txt", nome_pasta);
+    FILE* fp;
+    fp = fopen(nome_arq, "r");
+
+    printf("Lançamentos realizados:\n");
+
+    i = 0;
+    while ((info = getc(fp)) != EOF){
+        if(info == '|'){
+            printf("\n");
+            printf("%s", titulo[i]);
+            if(i<=5){
+                i++;
+            }else{
+                i = 0;
+            }
+        }else{
+            putchar(info);
+        }
     }
-    system("cls");
+    system("pause");
+    fclose(fp);
+
+return;
+}
+
+void menu_05(nome_pasta){
+    //Altera lançamentos realizados
+
 return;
 }
 
@@ -312,7 +365,7 @@ void fim_lancamento(nome_arq){
     //Termina uma linha de lancamento
     FILE* fp;
     fp = fopen(nome_arq, "a");
-    fprintf(fp, "|\n");
+    fprintf(fp, "\n");
     fclose(fp);
 return;
 }
