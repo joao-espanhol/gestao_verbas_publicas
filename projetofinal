@@ -170,10 +170,6 @@ void menu_01(nome_pasta){
     float valor;
     char descricao[100], favorecido[50], info[100] = "", data[11];
 
-    sprintf(nome_arq, "%s\\despesas.txt", nome_pasta);
-
-    escreve_BD(info, nome_arq);
-
     //CATEGORIA
     printf ("Insira as informacoes solicitadas abaixo: \n");
     printf ("Categoria:\n");
@@ -186,6 +182,11 @@ void menu_01(nome_pasta){
     printf ("7 – Oficineiro\n");
     printf ("8 – Outras Despesas\n");
     scanf("%i", &categoria);
+
+    sprintf(nome_arq, "%s\\%i.txt", nome_pasta,categoria);
+
+    escreve_BD(info, nome_arq);
+
     sprintf(info, "%i", categoria);
     escreve_BD(info, nome_arq);
     system("cls");
