@@ -274,33 +274,45 @@ return;
 
 void menu_03(nome_pasta){
     // Verifica a verba disponivel por categoria
-    float gasto_rh, disponivel_rh, gasto_esociais, disponivel_esociais, gasto_fundo, disponivel_fundo,
-    gasto_alimentacao, disponivel_alimentacao, gasto_pedagogico, disponivel_pedagogico, gasto_concessionaria,
-    disponivel_concessionaria, gasto_oficineiro, disponivel_oficineiro, gasto_outros, disponivel_outros;
+    float valor_gasto, valor_disponivel, valor;
 
-    char nome_arq[50];
+    char descr_categorias[8][30] = {"1 – RH\n", "2 - Encargos Sociais\n", "3 – Fundo Reserva\n", "4 - Alimentação\n",
+    "5 – Material Pedagógico\n", "6 – Concessionária\n", "7 – Oficineiro\n", "8 – Outras Despesas\n"};
 
-    sprintf(nome_arq, "%s\\despesas.txt", nome_pasta);
-    FILE* fp;
-    fp = fopen(nome_arq, "r");
+    char linha[200];
+    char *resultado;
+    char *pch;
+    int categoria;
 
-    printf("Gastos Mensais por Categoria:") ;
-    printf("\n1 – RH ----------------------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            gasto_rh,disponivel_rh);
-    printf("\n2 – Encargos Sociais --------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            gasto_esociais,disponivel_esociais);
-    printf("\n3 – Fundo Reserva ------------------------ Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            gasto_fundo,disponivel_fundo);
-    printf("\n4 - Alimentação -------------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            gasto_alimentacao,disponivel_alimentacao);
-    printf("\n5 – Material Pedagógico ------------------ Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            gasto_pedagogico,disponivel_pedagogico);
-    printf("\n6 – Concessionária ----------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            gasto_concessionaria,disponivel_concessionaria);
-    printf("\n7 – Oficineiro --------------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            gasto_oficineiro,disponivel_oficineiro);
-    printf("\n8 – Outras Despesas ---------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            gasto_outros,disponivel_outros);
+    char nome_arq[50], nome_arq2[50];
+
+    printf("Gastos Mensais por Categoria:");
+
+    for(int j = 0; j <=7; j++){
+        sprintf(nome_arq, "%s\\%i.txt", nome_pasta,j+1);
+        FILE* fp;
+        fp = fopen(nome_arq, "r");
+
+        while (!feof(fp)){
+            resultado = fgets(linha, 100, fp);
+            if (resultado){
+                pch = strtok (linha,"|");
+                int i = 0;
+                while (pch != NULL){
+                    if(i%5 == 0 && i!= 0){
+                        valor = atoi(pch);
+                        valor_gasto = valor_gasto+valor;
+                    }
+                    i++;
+                    pch = strtok (NULL, "|");
+                }
+            }
+        }
+
+        printf("\n%s ----------------------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
+            descr_categorias[j], valor_gasto);
+            valor_gasto = 0.0;
+    }
         system("pause");
         system("cls");
 return;
@@ -312,28 +324,32 @@ void menu_04(nome_pasta){
     char titulo[6][15] = {"Categoria: ", "Dia: ", "Numero: ", "Descrição: ", "Nome: ", "Valor: R$"};
     char info;
     int i;
-    sprintf(nome_arq, "%s\\despesas.txt", nome_pasta);
-    FILE* fp;
-    fp = fopen(nome_arq, "r");
 
     printf("Lançamentos realizados:\n");
 
-    i = 0;
-    while ((info = getc(fp)) != EOF){
-        if(info == '|'){
-            printf("\n");
-            printf("%s", titulo[i]);
-            if(i<=5){
-                i++;
+    for(int j = 1; j <=8; j++){
+        sprintf(nome_arq, "%s\\%i.txt", nome_pasta,j);
+        FILE* fp;
+        fp = fopen(nome_arq, "r");
+
+        i = 0;
+        while ((info = getc(fp)) != EOF){
+            if(info == '|'){
+                printf("\n");
+                printf("%s", titulo[i]);
+                if(i<=5){
+                    i++;
+                }else{
+                    i = 0;
+                }
             }else{
-                i = 0;
+                putchar(info);
             }
-        }else{
-            putchar(info);
         }
+        fclose(fp);
     }
     system("pause");
-    fclose(fp);
+
 
 return;
 }
