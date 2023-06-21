@@ -287,11 +287,17 @@ void menu_03(nome_pasta){
 
     char nome_arq[50], nome_arq2[50];
 
-    printf("Gastos Mensais por Categoria:");
-
     sprintf(nome_arq2, "%s\\verbas.txt", nome_pasta);
     FILE* fp2;
     fp2 = fopen(nome_arq2, "r");
+
+
+    if(fp2 == NULL){
+        printf("\nLance primeiro os Valores Disponíveis\n");
+        system("pause");
+        return;
+    }
+    printf("Gastos Mensais por Categoria:");
 
     for(int j = 0; j <=7; j++){
         sprintf(nome_arq, "%s\\%i.txt", nome_pasta,j+1);
