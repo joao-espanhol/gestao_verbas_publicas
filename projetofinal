@@ -337,6 +337,8 @@ void menu_04(nome_pasta){
     //Apresenta os lançamentos realizados
     char nome_arq[30];
     char titulo[6][15] = {"Categoria: ", "Dia: ", "Numero: ", "Descrição: ", "Nome: ", "Valor: R$"};
+    char categoria[8][25] = {" – RH", " - Encargos Sociais", " – Fundo Reserva", " - Alimentação",
+    " – Material Pedagógico", " – Concessionária", " – Oficineiro", " – Outras Despesas"};
     char info;
     int i;
 
@@ -359,6 +361,9 @@ void menu_04(nome_pasta){
                 }
             }else{
                 putchar(info);
+                if(i == 1){
+                    printf("%s", categoria[j-1]);
+                }
             }
         }
         fclose(fp);
@@ -371,6 +376,8 @@ return;
 
 void menu_05(nome_pasta){
     //Altera lançamentos realizados
+    int categoria;
+
 
 return;
 }
