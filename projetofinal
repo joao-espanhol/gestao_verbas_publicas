@@ -58,9 +58,11 @@ void main() {
                 case 4:
                     menu_04(nome_pasta);
                     system("cls");
+                    break;
                 case 5:
                     menu_05(nome_pasta);
                     system("cls");
+                    break;
                 case 0:
                     break;
                 default:
@@ -181,7 +183,7 @@ void menu_01(nome_pasta){
     printf ("6 – Concessionária\n");
     printf ("7 – Oficineiro\n");
     printf ("8 – Outras Despesas\n");
-    scanf("%i", &categoria);
+    scanf("%i", &categoria);//VALIDAR
 
     sprintf(nome_arq, "%s\\%i.txt", nome_pasta,categoria);
 
@@ -194,7 +196,7 @@ void menu_01(nome_pasta){
 
     //DATA
     printf ("Dia do Documento\n");
-    scanf("%d", &dia);
+    scanf("%d", &dia);//VALIDAR
     sprintf(info, "%d", dia);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -202,7 +204,7 @@ void menu_01(nome_pasta){
 
     //NUMERO DO DOCUMENTO
     printf ("Número do Documento \n ");
-    scanf("%i", &documento);
+    scanf("%i", &documento);//VALIDAR
     sprintf(info, "%i", documento);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -226,8 +228,8 @@ void menu_01(nome_pasta){
 
     //VALOR
     printf ("Valor\nR$");
-    scanf("%f", &valor);
-    sprintf(info, "%f", valor);
+    scanf("%f", &valor);//VALIDAR
+    sprintf(info, "%.2f", valor);
     escreve_BD(info, nome_arq);
     system("cls");
     fim_lancamento(nome_arq);
@@ -262,8 +264,8 @@ void menu_02(nome_pasta){
 
         printf("%s", descr_categorias[i]);
         printf("Valor\nR$");
-        scanf("%f", &valor2);
-        sprintf(info, "%f", valor2);
+        scanf("%f", &valor2);//VALIDAR
+        sprintf(info, "%.2f", valor2);
         escreve_BD(info, nome_arq);
         system("cls");
 
@@ -274,7 +276,7 @@ return;
 
 void menu_03(nome_pasta){
     // Verifica a verba disponivel por categoria
-    float valor_gasto, valor_disponivel, valor;
+    float valor_gasto, valor_disponivel, valor, percentual;
 
     char descr_categorias[8][30] = {"1 – RH\n", "2 - Encargos Sociais\n", "3 – Fundo Reserva\n", "4 - Alimentação\n",
     "5 – Material Pedagógico\n", "6 – Concessionária\n", "7 – Oficineiro\n", "8 – Outras Despesas\n"};
@@ -293,7 +295,7 @@ void menu_03(nome_pasta){
 
 
     if(fp2 == NULL){
-        printf("\nLance primeiro os Valores Disponíveis\n");
+        printf("\nLance primeiro os Limites de Verba\n");
         system("pause");
         return;
     }
@@ -304,6 +306,12 @@ void menu_03(nome_pasta){
         FILE* fp;
         fp = fopen(nome_arq, "r");
 
+        if(fp == NULL){
+        printf("\nLance primeiro os Gastos da Categoria %s\n", descr_categorias[j]);
+        system("pause");
+        return;
+        }
+
         while (!feof(fp)){
             resultado = fgets(linha, 100, fp);
             if (resultado){
@@ -311,7 +319,7 @@ void menu_03(nome_pasta){
                 int i = 0;
                 while (pch != NULL){
                     if(i%5 == 0 && i!= 0){
-                        valor = atoi(pch);
+                        valor = atof(pch);
                         valor_gasto = valor_gasto+valor;
                     }
                     i++;
@@ -324,15 +332,33 @@ void menu_03(nome_pasta){
             resultado2 = fgets(linha, 100, fp2);
             if(resultado2){
                 pch = strtok(linha, "|");
-                valor = atoi(pch);
+                valor = atof(pch);
                 valor_disponivel = valor;
             }
             break;
         }
 
-        printf("\n%s ----------------------------------- Valor Gasto: R$%f\tValor Disponível: R$%f\n",
-            descr_categorias[j], valor_gasto, (valor_disponivel - valor_gasto));
-            valor_gasto = 0.0;
+        percentual = (valor_gasto/valor_disponivel)*100;
+
+        printf("\n%s--------------------------Valor Recebido: R$%.2f\n",
+            descr_categorias[j],valor_disponivel);
+        printf("--------------------------Valor Gasto: R$%.2f\n", valor_gasto);
+        printf("--------------------------Valor Disponível: R$%.2f\n\n", (valor_disponivel - valor_gasto));
+
+        printf("RECEBIDO\t\t\t\t\t\t");
+        printf("DISPONÍVEL\n");
+        printf("%.2f",valor_disponivel);
+        for(int i = 0; i<percentual; i=i+2){
+            printf("*");
+        }
+        for(int i = 0; i<(100-percentual); i=i+2){
+            printf("_");
+        }
+
+        printf("%.2f\n",(valor_disponivel-valor_gasto));
+        printf("\t\t\t\t%.2f%c\n", percentual, '%');
+
+        valor_gasto = 0.0;
     }
         system("pause");
         system("cls");
@@ -346,7 +372,7 @@ void menu_04(nome_pasta){
     char categoria[8][25] = {" – RH", " - Encargos Sociais", " – Fundo Reserva", " - Alimentação",
     " – Material Pedagógico", " – Concessionária", " – Oficineiro", " – Outras Despesas"};
     char info;
-    int i;
+    int i, k = 1;
 
     printf("Lançamentos realizados:\n");
 
@@ -358,6 +384,10 @@ void menu_04(nome_pasta){
         i = 0;
         while ((info = getc(fp)) != EOF){
             if(info == '|'){
+                if(i == 0){
+                    printf("Lançamento %i", k);
+                    k++;
+                }
                 printf("\n");
                 printf("%s", titulo[i]);
                 if(i<=5){
@@ -382,8 +412,147 @@ return;
 
 void menu_05(nome_pasta){
     //Altera lançamentos realizados
-    int categoria;
+    int categoria = 0, lancamento;
 
+    char titulo[6][15] = {"Categoria: ", "Dia: ", "Numero: ", "Descrição: ", "Nome: ", "Valor: R$"};
+    char categorias[8][25] = {" – RH", " - Encargos Sociais", " – Fundo Reserva", " - Alimentação",
+    " – Material Pedagógico", " – Concessionária", " – Oficineiro", " – Outras Despesas"};
+
+    char nome_arq[30],nome_arq2[30], cadeia[30], info[200] = "";
+    char info2;
+    int i=0, k=1;
+
+    int documento, dia;
+    float valor;
+    char descricao[100], favorecido[50], data[11];
+
+    system("cls");
+    cabecalho();
+
+    printf("Selecione a Categoria do Lançamento que Deseja Alterar:\n");
+    printf ("1 – RH\n");
+    printf ("2 – Encargos Sociais\n");
+    printf ("3 – Fundo Reserva\n");
+    printf ("4 - Alimentação\n");
+    printf ("5 – Material Pedagógico\n");
+    printf ("6 – Concessionária\n");
+    printf ("7 – Oficineiro\n");
+    printf ("8 – Outras Despesas\n");
+    scanf("%i", &categoria);//VALIDAR
+
+    system("cls");
+    cabecalho();
+
+    sprintf(nome_arq2, "%s\\%i.txt", nome_pasta,categoria);
+    FILE* fp;
+    fp = fopen(nome_arq2, "r");
+
+    while ((info2 = getc(fp)) != EOF){
+        if(info2 == '|'){
+            if(i == 0){
+                printf("Lançamento %i", k);
+                k++;
+            }
+            printf("\n");
+            printf("%s", titulo[i]);
+            if(i<=5){
+                i++;
+            }else{
+                i = 0;
+            }
+        }else{
+            putchar(info2);
+            if(i == 1){
+                printf("%s", categorias[categoria-1]);
+            }
+        }
+    }
+    system("pause");
+
+    if(fp == NULL){
+        printf("\nNão há gastos lançados nesta categoria\n");
+        system("pause");
+        return;
+    }
+    system("cls");
+    cabecalho();
+
+    printf("Selecione o lançamento que deseja alterar: ");
+    scanf("%i", &lancamento);
+
+    sprintf(nome_arq, "%sNOVO.txt", nome_arq2);
+
+    fclose(fp);
+    fp = fopen(nome_arq2, "r");
+    FILE *fp2;
+    fp2 = fopen(nome_arq, "w");
+
+    i = 0;
+    while (fgets(info, 200, fp)!= NULL){
+        if(i < lancamento-1){
+            fputs(info, fp2);
+        }
+        else if(i == lancamento-1){
+            sprintf(info, "%i", categoria);
+            fprintf(fp2, "|%s", info);
+            fprintf(fp2, "|");
+            system("cls");
+            cabecalho();
+
+            //DATA
+            printf ("Dia do Documento\n");
+            scanf("%d", &dia);//VALIDAR
+            sprintf(info, "%d", dia);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|");
+            system("cls");
+            cabecalho();
+
+            //NUMERO DO DOCUMENTO
+            printf ("Número do Documento \n ");
+            scanf("%i", &documento);//VALIDAR
+            sprintf(info, "%i", documento);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|");
+            system("cls");
+            cabecalho();
+
+            //DESCRICAO
+            printf ("Descrição \n ");
+            scanf(" %[^\n]", descricao);
+            strcpy(info, descricao);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|");
+            system("cls");
+            cabecalho();
+
+            //FAVORECIDO
+            printf ("Nome do Favorecido \n");
+            scanf(" %[^\n]", favorecido);
+            strcpy(info, favorecido);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|");
+            system("cls");
+            cabecalho();
+
+            //VALOR
+            printf ("Valor\nR$");
+            scanf("%f", &valor);//VALIDAR
+            sprintf(info, "%.2f", valor);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|\n");
+            system("cls");
+        }
+        else{
+            fputs(info, fp2);
+        }
+        i++;
+    }
+    fclose(fp);
+    fclose(fp2);
+
+    remove(nome_arq2);
+    rename(nome_arq,nome_arq2);
 
 return;
 }
