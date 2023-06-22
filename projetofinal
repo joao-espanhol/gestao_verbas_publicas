@@ -299,7 +299,7 @@ void menu_03(nome_pasta){
         system("pause");
         return;
     }
-    printf("Gastos Mensais por Categoria:");
+    printf("Gastos Mensais por Categoria:\n\n");
 
     for(int j = 0; j <=7; j++){
         sprintf(nome_arq, "%s\\%i.txt", nome_pasta,j+1);
@@ -348,7 +348,8 @@ void menu_03(nome_pasta){
         printf("RECEBIDO\t\t\t\t\t\t");
         printf("DISPONÍVEL\n");
         printf("%.2f",valor_disponivel);
-        for(int i = 0; i<percentual; i=i+2){
+
+        for(int i = 0; (i<percentual && i<100); i=i+2){
             printf("*");
         }
         for(int i = 0; i<(100-percentual); i=i+2){
