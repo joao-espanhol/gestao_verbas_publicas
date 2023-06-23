@@ -270,7 +270,8 @@ void menu_01(nome_pasta){
 
     //DESCRICAO
     printf ("Descrição \n ");
-    scanf(" %100[^\n]", descricao);//FLUSH
+    setbuf(stdin, NULL);
+    scanf(" %100[^\n]", descricao);
     strcpy(info, descricao);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -278,7 +279,8 @@ void menu_01(nome_pasta){
 
     //FAVORECIDO
     printf ("Nome do Favorecido \n");
-    scanf(" %100[^\n]", favorecido);//FLUSH
+    setbuf(stdin, NULL);
+    scanf(" %100[^\n]", favorecido);
     strcpy(info, favorecido);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -314,12 +316,7 @@ void menu_02(nome_pasta){
     //Lanca as verbas no BD
     for(int i = 0; i<8; i++){
 
-        /*printf("%s", descr_categorias[i]);
-        categoria = i+1;
-        sprintf(info, "%i", categoria);
-        escreve_BD(info, nome_arq);
-        system("cls");
-        */cabecalho();
+        cabecalho();
 
         printf("%s", descr_categorias[i]);
         printf("Valor\nR$");
@@ -620,7 +617,8 @@ void menu_05(nome_pasta){
 
             //DESCRICAO
             printf ("Descrição \n ");
-            scanf(" %100[^\n]", descricao);//FLUSH
+            setbuf(stdin, NULL);
+            scanf(" %100[^\n]", descricao);
             strcpy(info, descricao);
             escreve_BD(info, nome_arq);
             system("cls");
@@ -628,7 +626,8 @@ void menu_05(nome_pasta){
 
             //FAVORECIDO
             printf ("Nome do Favorecido \n");
-            scanf(" %100[^\n]", favorecido);//FLUSH
+            setbuf(stdin, NULL);
+            scanf(" %100[^\n]", favorecido);
             strcpy(info, favorecido);
             escreve_BD(info, nome_arq);
             system("cls");
