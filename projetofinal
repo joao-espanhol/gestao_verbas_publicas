@@ -16,6 +16,10 @@ void cabecalho();
 void escreve_BD(info, nome_arq);
 void fim_lancamento(nome_arq);
 
+int valida_inteiros();
+float valida_reais();
+
+
 void main() {
 
     setlocale(LC_ALL, "Portuguese");
@@ -32,10 +36,23 @@ void main() {
     switch(permissao){
         case 1:
             cabecalho();
-            printf("Digite o mês que deseja trabalhar: \n");//VALIDAR
-            scanf("%d", &mes);
-            printf("Digite o ano que deseja trabalhar: \n");//VALIDAR
-            scanf("%d", &ano);
+
+            printf("Digite o mês que deseja trabalhar: \n");
+            do{
+                mes = valida_inteiros();
+                if(mes <1 || mes >12){
+                    printf("Digite um valor valido!\n");
+                }
+            }while(mes <1 || mes >12);
+
+            printf("Digite o ano que deseja trabalhar: \n");
+            do{
+                ano = valida_inteiros();
+                if(ano <1900 || ano >2023){
+                    printf("Digite um valor valido!\n");
+                }
+            }while(ano <1900 || ano >2023);
+
             sprintf(nome_pasta, "%d-%d", ano, mes);
             sprintf(cria_pasta, "mkdir %s", nome_pasta);
             system(cria_pasta);
@@ -73,10 +90,22 @@ void main() {
         break;
         case 2:
             cabecalho();
-            printf("Digite o mês que deseja trabalhar: \n");//VALIDAR
-            scanf("%d", &mes);
-            printf("Digite o ano que deseja trabalhar: \n");//VALIDAR
-            scanf("%d", &ano);
+            printf("Digite o mês que deseja trabalhar: \n");
+            do{
+                mes = valida_inteiros();
+                if(mes <1 || mes >12){
+                    printf("Digite um valor valido!\n");
+                }
+            }while(mes <1 || mes >12);
+
+            printf("Digite o ano que deseja trabalhar: \n");
+            do{
+                ano = valida_inteiros();
+                if(ano <1900 || ano >2023){
+                    printf("Digite um valor valido!\n");
+                }
+            }while(ano <1900 || ano >2023);
+
             sprintf(nome_pasta, "%d-%d", ano, mes);
             sprintf(cria_pasta, "mkdir %s", nome_pasta);
             system(cria_pasta);
@@ -113,11 +142,11 @@ int login(){
     cabecalho ();
     printf ("Seja bem-vindo (a)!\n");
     do{
-    printf ("Login: ");
-    scanf ("%i", &login);
+    printf ("Login (APENAS NUMEROS): ");
+    login = valida_inteiros();
 
-    printf ("Senha: ");
-    scanf ("%i", &senha);
+    printf ("Senha (APENAS NUMEROS): ");
+    senha = valida_inteiros();
 
         if (login == 123 && senha == 123){
             printf ("Login feito com sucesso!\n");
@@ -133,6 +162,7 @@ int login(){
         }
         else{
             system("cls");
+            cabecalho();
             printf ("Usuário nao cadastrado! Tente novamente\n");
         }
     }while(i!=0);
@@ -150,12 +180,13 @@ int menu_perfil_1(){
     printf ("5 - Alterar Lançamentos\n");
     printf ("0 - Sair\n");
     printf("Codigo: ");
-    scanf ("%i", &codigo);
+
+    codigo = valida_inteiros();
 
     system("cls");
     cabecalho();
 
-    return (codigo);
+return (codigo);
 }
 
 int menu_perfil_2(){
@@ -165,12 +196,13 @@ int menu_perfil_2(){
     printf ("1 - Consulta de Limite Disponivel\n");
     printf ("0 - Sair\n");
     printf("Codigo: ");
-    scanf ("%i", &codigo);
+
+    codigo = valida_inteiros();
 
     system("cls");
     cabecalho();
 
-    return (codigo);
+return (codigo);
 }
 
 void menu_01(nome_pasta){
@@ -182,17 +214,26 @@ void menu_01(nome_pasta){
     char descricao[100], favorecido[50], info[100] = "", data[11];
 
     //CATEGORIA
-    printf ("Insira as informacoes solicitadas abaixo: \n");
-    printf ("Categoria:\n");
-    printf ("1 – RH\n");
-    printf ("2 – Encargos Sociais\n");
-    printf ("3 – Fundo Reserva\n");
-    printf ("4 - Alimentação\n");
-    printf ("5 – Material Pedagógico\n");
-    printf ("6 – Concessionária\n");
-    printf ("7 – Oficineiro\n");
-    printf ("8 – Outras Despesas\n");
-    scanf("%i", &categoria);//VALIDAR
+    do{
+        printf ("Insira as informacoes solicitadas abaixo: \n");
+        printf ("Categoria:\n");
+        printf ("1 – RH\n");
+        printf ("2 – Encargos Sociais\n");
+        printf ("3 – Fundo Reserva\n");
+        printf ("4 - Alimentação\n");
+        printf ("5 – Material Pedagógico\n");
+        printf ("6 – Concessionária\n");
+        printf ("7 – Oficineiro\n");
+        printf ("8 – Outras Despesas\n");
+
+        categoria = valida_inteiros();
+        if(categoria <1 || categoria >8){
+            printf("Digite um valor valido!\n");
+            system("pause");
+            system("cls");
+            cabecalho();
+        }
+    }while(categoria <1 || categoria >8);
 
     sprintf(nome_arq, "%s\\%i.txt", nome_pasta,categoria);
 
@@ -205,7 +246,15 @@ void menu_01(nome_pasta){
 
     //DATA
     printf ("Dia do Documento\n");
-    scanf("%d", &dia);//VALIDAR
+
+    do{
+        dia = valida_inteiros();
+        if(dia <1 || dia >31){
+            printf("Digite um valor valido!\n");
+            printf("Valor: ");
+        }
+    }while(dia <1 || dia >31);
+
     sprintf(info, "%d", dia);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -213,7 +262,7 @@ void menu_01(nome_pasta){
 
     //NUMERO DO DOCUMENTO
     printf ("Número do Documento \n ");
-    scanf("%i", &documento);//VALIDAR
+    documento = valida_inteiros();
     sprintf(info, "%i", documento);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -221,7 +270,7 @@ void menu_01(nome_pasta){
 
     //DESCRICAO
     printf ("Descrição \n ");
-    scanf(" %[^\n]", descricao);
+    scanf(" %100[^\n]", descricao);//FLUSH
     strcpy(info, descricao);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -229,7 +278,7 @@ void menu_01(nome_pasta){
 
     //FAVORECIDO
     printf ("Nome do Favorecido \n");
-    scanf(" %[^\n]", favorecido);
+    scanf(" %100[^\n]", favorecido);//FLUSH
     strcpy(info, favorecido);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -237,7 +286,8 @@ void menu_01(nome_pasta){
 
     //VALOR
     printf ("Valor\nR$");
-    scanf("%f", &valor);//VALIDAR
+
+    valor = valida_reais();
     sprintf(info, "%.2f", valor);
     escreve_BD(info, nome_arq);
     system("cls");
@@ -273,7 +323,7 @@ void menu_02(nome_pasta){
 
         printf("%s", descr_categorias[i]);
         printf("Valor\nR$");
-        scanf("%f", &valor2);//VALIDAR
+        valor2 = valida_reais();
         sprintf(info, "%.2f", valor2);
         escreve_BD(info, nome_arq);
         system("cls");
@@ -316,9 +366,9 @@ void menu_03(nome_pasta){
         fp = fopen(nome_arq, "r");
 
         if(fp == NULL){
-        printf("\nLance primeiro os Gastos da Categoria %s\n", descr_categorias[j]);
-        system("pause");
-        return;
+            printf("\nLance primeiro os Gastos da Categoria %s\n", descr_categorias[j]);
+            system("pause");
+            return;
         }
 
         while (!feof(fp)){
@@ -430,7 +480,7 @@ void menu_05(nome_pasta){
 
     char nome_arq[30],nome_arq2[30], cadeia[30], info[200] = "";
     char info2;
-    int i=0, k=1;
+    int i=0, k=1, lanc_max = 1;
 
     int documento, dia;
     float valor;
@@ -439,16 +489,26 @@ void menu_05(nome_pasta){
     system("cls");
     cabecalho();
 
-    printf("Selecione a Categoria do Lançamento que Deseja Alterar:\n");
-    printf ("1 – RH\n");
-    printf ("2 – Encargos Sociais\n");
-    printf ("3 – Fundo Reserva\n");
-    printf ("4 - Alimentação\n");
-    printf ("5 – Material Pedagógico\n");
-    printf ("6 – Concessionária\n");
-    printf ("7 – Oficineiro\n");
-    printf ("8 – Outras Despesas\n");
-    scanf("%i", &categoria);//VALIDAR
+    do{
+        printf("Selecione a Categoria do Lançamento que Deseja Alterar:\n");
+        printf ("Categoria:\n");
+        printf ("1 – RH\n");
+        printf ("2 – Encargos Sociais\n");
+        printf ("3 – Fundo Reserva\n");
+        printf ("4 - Alimentação\n");
+        printf ("5 – Material Pedagógico\n");
+        printf ("6 – Concessionária\n");
+        printf ("7 – Oficineiro\n");
+        printf ("8 – Outras Despesas\n");
+
+        categoria = valida_inteiros();
+        if(categoria <1 || categoria >8){
+            printf("Digite um valor valido!\n");
+            system("pause");
+            system("cls");
+            cabecalho();
+        }
+    }while(categoria <1 || categoria >8);
 
     system("cls");
     cabecalho();
@@ -457,10 +517,17 @@ void menu_05(nome_pasta){
     FILE* fp;
     fp = fopen(nome_arq2, "r");
 
+    if(fp == NULL){
+        printf("\nErro ao alterar lançamento!\n");
+        system("pause");
+        return;
+    }
+
     while ((info2 = getc(fp)) != EOF){
         if(info2 == '|'){
             if(i == 0){
                 printf("Lançamento %i", k);
+                lanc_max = k;
                 k++;
             }
             printf("\n");
@@ -488,14 +555,33 @@ void menu_05(nome_pasta){
     cabecalho();
 
     printf("Selecione o lançamento que deseja alterar: ");
-    scanf("%i", &lancamento);
+
+    do{
+        lancamento = valida_inteiros();
+        if(lancamento <1 || lancamento > lanc_max){
+            printf("Digite um valor valido!\n");
+        }
+    }while(lancamento <1 || lancamento > lanc_max);
 
     sprintf(nome_arq, "%sNOVO.txt", nome_arq2);
 
     fclose(fp);
     fp = fopen(nome_arq2, "r");
+
+    if(fp == NULL){
+        printf("\nErro ao alterar lançamento!\n");
+        system("pause");
+        return;
+    }
+
     FILE *fp2;
     fp2 = fopen(nome_arq, "w");
+
+    if(fp2 == NULL){
+        printf("\nErro ao alterar lançamento!\n");
+        system("pause");
+        return;
+    }
 
     i = 0;
     while (fgets(info, 200, fp)!= NULL){
@@ -511,43 +597,46 @@ void menu_05(nome_pasta){
 
             //DATA
             printf ("Dia do Documento\n");
-            scanf("%d", &dia);//VALIDAR
+            do{
+                dia = valida_inteiros();
+                if(dia <1 || dia >31){
+                    printf("Digite um valor valido!\n");
+                    printf("Valor: ");
+                }
+            }while(dia <1 || dia >31);
+
             sprintf(info, "%d", dia);
-            fprintf(fp2, "%s", info);
-            fprintf(fp2, "|");
+            escreve_BD(info, nome_arq);
             system("cls");
             cabecalho();
 
             //NUMERO DO DOCUMENTO
             printf ("Número do Documento \n ");
-            scanf("%i", &documento);//VALIDAR
+            documento = valida_inteiros();
             sprintf(info, "%i", documento);
-            fprintf(fp2, "%s", info);
-            fprintf(fp2, "|");
+            escreve_BD(info, nome_arq);
             system("cls");
             cabecalho();
 
             //DESCRICAO
             printf ("Descrição \n ");
-            scanf(" %[^\n]", descricao);
+            scanf(" %100[^\n]", descricao);//FLUSH
             strcpy(info, descricao);
-            fprintf(fp2, "%s", info);
-            fprintf(fp2, "|");
+            escreve_BD(info, nome_arq);
             system("cls");
             cabecalho();
 
             //FAVORECIDO
             printf ("Nome do Favorecido \n");
-            scanf(" %[^\n]", favorecido);
+            scanf(" %100[^\n]", favorecido);//FLUSH
             strcpy(info, favorecido);
-            fprintf(fp2, "%s", info);
-            fprintf(fp2, "|");
+            escreve_BD(info, nome_arq);
             system("cls");
             cabecalho();
 
             //VALOR
             printf ("Valor\nR$");
-            scanf("%f", &valor);//VALIDAR
+            valor = valida_reais();
             sprintf(info, "%.2f", valor);
             fprintf(fp2, "%s", info);
             fprintf(fp2, "|\n");
@@ -592,4 +681,47 @@ void fim_lancamento(nome_arq){
     fprintf(fp, "\n");
     fclose(fp);
 return;
+}
+int valida_inteiros(){
+    int inteiro;
+    int retorno = -1;
+    char letra;
+
+    do{
+        retorno = scanf("%d", &inteiro);
+        if (retorno == 0){
+            printf("Digite um valor válido!\n");
+            system("pause");
+            printf("Valor: ");
+        }
+        do{
+            letra = getchar();
+        }while(letra != '\n');
+    }while(retorno == 0);
+
+return inteiro;
+}
+
+float valida_reais(){
+    float real;
+    int retorno = -1;
+    char letra;
+
+    do{
+        retorno = scanf("%f", &real);
+        if (retorno == 0){
+            printf("Digite um valor válido!\n");
+            system("pause");
+            printf("Valor: ");
+        }else if(real < 0.0){
+            printf("Digite um valor válido!\n");
+            system("pause");
+            printf("Valor: ");
+        }
+        do{
+            letra = getchar();
+        }while(letra != '\n');
+    }while(retorno == 0 || real < 0.0);
+
+return real;
 }
