@@ -72,13 +72,22 @@ void main() {
         }
         break;
         case 2:
+            cabecalho();
+            printf("Digite o mês que deseja trabalhar: \n");//VALIDAR
+            scanf("%d", &mes);
+            printf("Digite o ano que deseja trabalhar: \n");//VALIDAR
+            scanf("%d", &ano);
+            sprintf(nome_pasta, "%d-%d", ano, mes);
+            sprintf(cria_pasta, "mkdir %s", nome_pasta);
+            system(cria_pasta);
+            system("cls");
         while(codigo != 0){
 
             codigo = menu_perfil_2();
 
             switch(codigo){
                 case 1:
-                    menu_03();
+                    menu_03(nome_pasta);
                     system("cls");
                     break;
                 case 0:
@@ -104,10 +113,10 @@ int login(){
     cabecalho ();
     printf ("Seja bem-vindo (a)!\n");
     do{
-    printf ("Digite seu login: \n");
+    printf ("Login: ");
     scanf ("%i", &login);
 
-    printf ("Digite sua senha: \n");
+    printf ("Senha: ");
     scanf ("%i", &senha);
 
         if (login == 123 && senha == 123){
@@ -560,9 +569,9 @@ return;
 
 void cabecalho(){
     //Cabecalho do Sistema
-    printf("************************************");
-    printf("\nSISTEMA DE GESTAO DE VERBAS PUBLICAS");
-    printf("\n************************************\n");
+    printf("*****************************************************");
+    printf("\n\tSISTEMA DE GESTAO DE VERBAS PUBLICAS");
+    printf("\n*****************************************************\n");
 return;
 }
 
