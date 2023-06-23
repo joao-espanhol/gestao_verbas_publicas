@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
-#include <time.h>
+#include <windows.h>
 
 int login();
 int menu_perfil_1();
@@ -372,6 +372,7 @@ void menu_03(nome_pasta){
     char *resultado2;
     char *pch;
     int categoria;
+    int l = 0;
 
     char nome_arq[50], nome_arq2[50];
 
@@ -446,6 +447,12 @@ void menu_03(nome_pasta){
         printf("\t\t\t\t%.2f%c\n", percentual, '%');
 
         valor_gasto = 0.0;
+        l++;
+        if(l % 3 == 0 && l != 0){
+            system("pause");
+            system("cls");
+            cabecalho();
+        }
     }
         system("pause");
         system("cls");
@@ -459,7 +466,7 @@ void menu_04(nome_pasta){
     char categoria[8][25] = {" – RH", " - Encargos Sociais", " – Fundo Reserva", " - Alimentação",
     " – Material Pedagógico", " – Concessionária", " – Oficineiro", " – Outras Despesas"};
     char info;
-    int i, k = 1;
+    int i, k = 1, l = 0;
 
     printf("Lançamentos realizados:\n");
 
@@ -472,6 +479,11 @@ void menu_04(nome_pasta){
         while ((info = getc(fp)) != EOF){
             if(info == '|'){
                 if(i == 0){
+                    if(l % 4 == 0 && l != 0){
+                        system("pause");
+                        system("cls");
+                        cabecalho();
+                    }
                     printf("Lançamento %i", k);
                     k++;
                 }
@@ -481,6 +493,7 @@ void menu_04(nome_pasta){
                     i++;
                 }else{
                     i = 0;
+                    l++;
                 }
             }else{
                 putchar(info);
@@ -701,9 +714,16 @@ return;
 
 void cabecalho(){
     //Cabecalho do Sistema
-    printf("*****************************************************");
-    printf("\n\tSISTEMA DE GESTAO DE VERBAS PUBLICAS");
-    printf("\n*****************************************************\n");
+    desenhar(200, 170);
+
+    gotoxy(1,1);
+    printf("**************************************************************************************************\n");
+    gotoxy(15,2);
+    printf("SISTEMA DE GESTAO DE VERBAS PUBLICAS\n");
+    gotoxy(1,3);
+    printf("**************************************************************************************************\n");
+
+    return 0;
 return;
 }
 
@@ -921,3 +941,31 @@ void tutorial(){
 
 return;
 }
+
+void desenhar(int largura, int altura) {
+
+    int i, j;
+
+    altura /= 4;
+    largura /= 2;
+
+    for (i = 0; i < altura; i++) {
+        for (j = 0; j < largura; j++) {
+            if (i == altura - 1) {
+                printf("#");
+            } else if (j == largura - 1) {
+                printf("#");
+            } else {
+                printf(" ");
+            }
+        }
+        printf("\n");
+    }
+}
+
+void gotoxy(int x, int y) {
+    COORD pos = {x, y};
+    HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleCursorPosition(output, pos);
+}
+
