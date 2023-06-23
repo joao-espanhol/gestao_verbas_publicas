@@ -12,6 +12,7 @@ void menu_02(nome_pasta);
 void menu_03(nome_pasta);
 void menu_04(nome_pasta);
 void menu_05(nome_pasta);
+void tutorial();
 void cabecalho();
 void escreve_BD(info, nome_arq);
 void fim_lancamento(nome_arq);
@@ -26,6 +27,7 @@ void main() {
 
     int codigo = 1;
     int permissao;
+    int opcao_tutorial;
     char nome_pasta[30];
     int mes, ano;
     char teste;
@@ -37,6 +39,30 @@ void main() {
         case 1:
             cabecalho();
 
+            printf("\nDeseja ver o tutorial?");
+            printf("\n1 - Sim");
+            printf("\n2 - Não\n");
+            opcao_tutorial = valida_inteiros();
+
+            switch(opcao_tutorial){
+                case 1:
+                    system("cls");
+                    tutorial();
+                    system("cls");
+                    break;
+                case 2:
+                    printf("\nCaso deseje assitir ao tutorial, utilize o menu 6!\n");
+                    system("pause");
+                    system("cls");
+                    break;
+                default:
+                    printf("Opção Invalida");
+                    printf("\nCaso deseje assitir ao tutorial, utilize o menu 6!\n");
+                    system("pause");
+                    system("cls");
+            }
+
+            cabecalho();
             printf("Digite o mês que deseja trabalhar: \n");
             do{
                 mes = valida_inteiros();
@@ -80,6 +106,9 @@ void main() {
                     menu_05(nome_pasta);
                     system("cls");
                     break;
+                case 6:
+                    tutorial();
+                    system("cls");
                 case 0:
                     break;
                 default:
@@ -174,10 +203,11 @@ int menu_perfil_1(){
     cabecalho();
     printf ("Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n");
     printf ("1 - Lançar Gastos\n");
-    printf ("2 - Lançar Limite de Verba\n");
+    printf ("2 - Lançar Verbas Recebidas\n");
     printf ("3 - Consultar Limite Disponivel\n");
     printf ("4 - Consultar Lançamentos\n");
     printf ("5 - Alterar Lançamentos\n");
+    printf ("6 - Tutorial\n");
     printf ("0 - Sair\n");
     printf("Codigo: ");
 
@@ -425,7 +455,7 @@ return;
 void menu_04(nome_pasta){
     //Apresenta os lançamentos realizados
     char nome_arq[30];
-    char titulo[6][15] = {"Categoria: ", "Dia: ", "Numero: ", "Descrição: ", "Nome: ", "Valor: R$"};
+    char titulo[6][25] = {"Categoria: ", "Dia: ", "Numero: ", "Descrição: ", "Nome do Favorecido: ", "Valor: R$"};
     char categoria[8][25] = {" – RH", " - Encargos Sociais", " – Fundo Reserva", " - Alimentação",
     " – Material Pedagógico", " – Concessionária", " – Oficineiro", " – Outras Despesas"};
     char info;
@@ -551,10 +581,17 @@ void menu_05(nome_pasta){
     system("cls");
     cabecalho();
 
+    printf("Para sair, digite 0!\n\n");
     printf("Selecione o lançamento que deseja alterar: ");
 
     do{
         lancamento = valida_inteiros();
+
+        if(lancamento == 0){
+            printf("\nVoltando para o menu principal!\n\n");
+            system("pause");
+        return;
+        }
         if(lancamento <1 || lancamento > lanc_max){
             printf("Digite um valor valido!\n");
         }
@@ -603,33 +640,37 @@ void menu_05(nome_pasta){
             }while(dia <1 || dia >31);
 
             sprintf(info, "%d", dia);
-            escreve_BD(info, nome_arq);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|");
             system("cls");
             cabecalho();
 
             //NUMERO DO DOCUMENTO
             printf ("Número do Documento \n ");
             documento = valida_inteiros();
-            sprintf(info, "%i", documento);
-            escreve_BD(info, nome_arq);
+            sprintf(info, "%d", documento);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|");
             system("cls");
             cabecalho();
 
             //DESCRICAO
             printf ("Descrição \n ");
             setbuf(stdin, NULL);
-            scanf(" %100[^\n]", descricao);
+            scanf(" %99[^\n]", descricao);
             strcpy(info, descricao);
-            escreve_BD(info, nome_arq);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|");
             system("cls");
             cabecalho();
 
             //FAVORECIDO
             printf ("Nome do Favorecido \n");
             setbuf(stdin, NULL);
-            scanf(" %100[^\n]", favorecido);
+            scanf(" %99[^\n]", favorecido);
             strcpy(info, favorecido);
-            escreve_BD(info, nome_arq);
+            fprintf(fp2, "%s", info);
+            fprintf(fp2, "|");
             system("cls");
             cabecalho();
 
@@ -648,6 +689,9 @@ void menu_05(nome_pasta){
     }
     fclose(fp);
     fclose(fp2);
+
+    printf("Alteração realizada com sucesso!\n\n");
+    system("pause");
 
     remove(nome_arq2);
     rename(nome_arq,nome_arq2);
@@ -723,4 +767,157 @@ float valida_reais(){
     }while(retorno == 0 || real < 0.0);
 
 return real;
+}
+
+void tutorial(){
+    cabecalho();
+    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf("Nosso programa foi desenvolvido para OSCs que buscam \n");
+    printf("gerenciar seus recursos governamentais com maior \n");
+    printf("eficiencia e clareza. \n\n");
+
+
+    system("pause");
+    system("cls");
+    cabecalho();
+    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+
+
+    printf("O programa possui 6 menus:\n");
+    printf ("1 - Lançar Gastos\n");
+    printf ("2 - Lançar Verbas Recebidas\n");
+    printf ("3 - Consultar Limite Disponivel\n");
+    printf ("4 - Consultar Lançamentos\n");
+    printf ("5 - Alterar Lançamentos\n");
+    printf ("6 - Tutorial\n\n");
+
+    printf("Vamos olhar mais de perto os menús e entender melhor o\n");
+    printf("que cada um deles faz!\n\n");
+
+
+    system("pause");
+    system("cls");
+    cabecalho();
+    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+
+
+    printf ("\t\tMenu 1 - Lançar Gastos!\n\n");
+    printf("Esse menu tem como objetivo armazenar os gastos que a \n");
+    printf("OSC realizou no mês de trabalho.\n\n");
+
+    printf("O programa armazena as informações em arquivos de texto,\n");
+    printf("porém, não recomendamos a manipulação destes arquivos, já\n");
+    printf("que isso pode danificar o comportamento do programa e \n");
+    printf("acarretar na perda dos dados já lançados.\n\n");
+
+    printf("Sempre o lançamento deve preencher todos os campos, visando\n");
+    printf("a correta armazenagem das informações.\n");
+    printf("Caso algum campo não precise ser preenchido, preencha-o com\n");
+    printf("um 0.\n\n");
+
+
+    system("pause");
+    system("cls");
+    cabecalho();
+    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+
+
+    printf ("\t   Menu 2 - Lançar Verbas Recebidas!\n\n");
+
+    printf("Esse menu tem como objetivo armazenar as verbas que \n");
+    printf("o governo disponibilizou para o mês em questão.\n\n");
+
+    printf("Caso deseje alterar algum valor, apenas acesse o menu \n");
+    printf("2 novamente para realizar as alterações necessárias!\n");
+
+
+    system("pause");
+    system("cls");
+    cabecalho();
+    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+
+
+    printf ("\t   Menu 3 - Consultar Limite Disponivel!\n\n");
+
+    printf("Este menu serve para consultar o valor recebido e o\n");
+    printf("valor gasto no período.\n\n");
+
+    printf("Além dessas informações, o programa disponibiliza um \n");
+    printf("gráfico com o valor ainda disponível e quão perto a OSC\n");
+    printf("está de estourar o valor disponibilizado\n");
+
+    printf("\nExemplo de gráfico: \n\n\n");
+    printf("6 - Concessionária\n--------------------------Valor Recebido: R$10000,00\n"
+           "--------------------------Valor Gasto: R$7733,45\n"
+           "--------------------------Valor Disponível: R$2266,55""\n\n\n"
+           "RECEBIDO                                                DISPONÍVEL\n"
+           "10000,00***************************************____________2266,55\n"
+           "                                77,33%c\n\n", '%');
+
+
+    system("pause");
+    system("cls");
+    cabecalho();
+    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+
+
+    printf ("\t   Menu 4 - Consultar Lançamentos!\n\n");
+
+    printf("Este menu serve para consultar os lançamentos realizados\n");
+    printf("no período em questão.\n\n");
+
+    printf("O Menu 4 - Consultar Lançamentos não serve para alterar \n");
+    printf("os lançamentos realizados. Esta funcionalidade está\n");
+    printf("disponível no próximo menu!\n\n");
+
+    printf("Abaixo está um exemplo de lançamento realizado: \n\n");
+    printf("Lançamento 22\n""Categoria: 5 - Material Pedagógico\n""Dia: 12\n"
+           "Numero: 123123123\n""Descrição: Compra de Cadernos e livros \n"
+           "Nome do Favorecido: Papelaria do Joaquim\n""Valor: R$397,32\n\n\n");
+
+
+    system("pause");
+    system("cls");
+    cabecalho();
+    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+
+
+    printf ("\t   Menu 5 - Alterar Lançamentos!\n\n");
+
+    printf("Este menu serve para alterar os lançamentos realizados.\n");
+    printf("Ao selecionar o Menu 5 - Alterar Lançamentos, você deverá\n");
+    printf("selecionar a categoria do lançamento que deseja alterar.\n\n");
+
+    printf("O programa irá exibir os lançamentos da categoria \n");
+    printf("selecionada, e você deverá lembrar o índice do lançamento \n");
+    printf("que deseja alterar.\n\n");
+
+    printf("Caso esqueça o indice do lançamento durante a seleção, \n");
+    printf("digite 0 para voltar para o menu principal.\n\n");
+
+    printf("Ao final do lançamento, caso queira verificar se os dados\n");
+    printf("estão corretos, utilize o Menu 4 - Consultar Lançamentos!\n\n");
+
+
+    system("pause");
+    system("cls");
+    cabecalho();
+    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+
+
+    printf ("\t\t Menu 6 - Tutorial\n\n");
+
+    printf("Caso queira visualizar o tutorial novamente, basta acessar\n");
+    printf("o Menu 6 - Tutorial\n\n");
+
+    printf("Se ainda persistir alguma dúvida na utilização do programa, \n");
+    printf("basta entrar em contato com a equipe de suporte no e-mail:\n\n");
+
+    printf("\tgestao_verbas_publicas@gmail.com\n\n");
+
+
+    system("pause");
+    system("cls");
+
+return;
 }
