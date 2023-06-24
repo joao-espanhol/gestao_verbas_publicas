@@ -4,6 +4,34 @@
 #include <string.h>
 #include <windows.h>
 
+/*****************************EFECTS***************************************/
+#define NONE        "\033[0m"
+#define BOLD        "\033[1m"
+#define HALFBRIGHT  "\033[2m"
+#define UNDERSCORE  "\033[4m"
+#define BLINK       "\033[5m"
+#define REVERSE     "\033[7m"
+
+/*****************************COLORS***************************************/
+#define C_BLACK     "\033[30m"
+#define C_RED       "\033[31m" //ULTRAPASSOU
+#define C_GREEN     "\033[32m"
+#define C_YELLOW    "\033[33m" //QUASE ULTRAPASSANDO
+#define C_BLUE      "\033[34m"
+#define C_MAGENTA   "\033[35m" //VALIDACAO NAO PASSOU
+#define C_CYAN      "\033[36m"
+#define C_GRAY      "\033[37m"
+
+/***************************BACKGROUNDS************************************/
+#define BG_BLACK    "\033[40m"
+#define BG_RED      "\033[41m"//VALIDACAO NAO PASSOU
+#define BG_GREEN    "\033[42m"
+#define BG_YELLOW   "\033[43m"
+#define BG_BLUE     "\033[44m"
+#define BG_MAGENTA  "\033[45m"
+#define BG_CYAN     "\033[46m"
+#define BG_GRAY     "\033[47m"
+
 int login();
 int menu_perfil_1();
 int menu_perfil_2();
@@ -24,6 +52,7 @@ float valida_reais();
 void main() {
 
     setlocale(LC_ALL, "Portuguese");
+    system("color 00");
 
     int codigo = 1;
     int permissao;
@@ -65,7 +94,7 @@ void main() {
             do{
                 mes = valida_inteiros();
                 if(mes <1 || mes >12){
-                    printf("Digite um valor valido!\n");
+                    printf(BG_RED"Digite um valor valido!\n"NONE);
                 }
             }while(mes <1 || mes >12);
 
@@ -73,7 +102,7 @@ void main() {
             do{
                 ano = valida_inteiros();
                 if(ano <1900 || ano >2023){
-                    printf("Digite um valor valido!\n");
+                    printf(BG_RED"Digite um valor valido!\n"NONE);
                 }
             }while(ano <1900 || ano >2023);
 
@@ -110,7 +139,8 @@ void main() {
                 case 0:
                     break;
                 default:
-                    printf("Escreva uma opção válida\n");
+                    printf(BG_RED"Escreva uma opção válida\n"NONE);
+                    system("pause");
                     system("cls");
             }
         }
@@ -121,7 +151,7 @@ void main() {
             do{
                 mes = valida_inteiros();
                 if(mes <1 || mes >12){
-                    printf("Digite um valor valido!\n");
+                    printf(BG_RED"Digite um valor valido!\n"NONE);
                 }
             }while(mes <1 || mes >12);
 
@@ -129,7 +159,7 @@ void main() {
             do{
                 ano = valida_inteiros();
                 if(ano <1900 || ano >2023){
-                    printf("Digite um valor valido!\n");
+                    printf(BG_RED"Digite um valor valido!\n"NONE);
                 }
             }while(ano <1900 || ano >2023);
 
@@ -149,7 +179,8 @@ void main() {
                 case 0:
                     break;
                 default:
-                    printf("Escreva uma opção válida\n");
+                    printf(BG_RED"Escreva uma opção válida\n"NONE);
+                    system("pause");
                     system("cls");
             }
         }
@@ -176,13 +207,15 @@ int login(){
     senha = valida_inteiros();
 
         if (login == 123 && senha == 123){
-            printf ("Login feito com sucesso!\n");
+            printf (C_GREEN"Login feito com sucesso!\n"NONE);
+            system("pause");
             system("cls");
             permissao = 1;
             i = 0;
         }
         else if(login == 456 && senha == 456){
-            printf ("Login feito com sucesso!\n");
+            printf (C_GREEN"Login feito com sucesso!\n"NONE);
+            system("pause");
             system("cls");
             permissao = 2;
             i = 0;
@@ -190,7 +223,7 @@ int login(){
         else{
             system("cls");
             cabecalho();
-            printf ("Usuário nao cadastrado! Tente novamente\n");
+            printf (BG_RED"Usuário nao cadastrado! Tente novamente\n"NONE);
         }
     }while(i!=0);
 return(permissao);
@@ -199,7 +232,7 @@ return(permissao);
 int menu_perfil_1(){
     int codigo;
     cabecalho();
-    printf ("Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n");
+    printf (REVERSE"Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n"NONE);
     printf ("1 - Lançar Gastos\n");
     printf ("2 - Lançar Verbas Recebidas\n");
     printf ("3 - Consultar Limite Disponivel\n");
@@ -220,7 +253,7 @@ return (codigo);
 int menu_perfil_2(){
     int codigo;
     cabecalho();
-    printf ("Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n");
+    printf (REVERSE"Bem-vindo(a)! Escolha uma das opções abaixo para prosseguir:\n"NONE);
     printf ("1 - Consulta de Limite Disponivel\n");
     printf ("0 - Sair\n");
     printf("Codigo: ");
@@ -257,7 +290,7 @@ void menu_01(nome_pasta){
 
         categoria = valida_inteiros();
         if(categoria <1 || categoria >8){
-            printf("Digite um valor valido!\n");
+            printf(BG_RED"Digite um valor valido!\n"NONE);
             system("pause");
             system("cls");
             cabecalho();
@@ -279,7 +312,7 @@ void menu_01(nome_pasta){
     do{
         dia = valida_inteiros();
         if(dia <1 || dia >31){
-            printf("Digite um valor valido!\n");
+            printf(BG_RED"Digite um valor valido!\n"NONE);
             printf("Valor: ");
         }
     }while(dia <1 || dia >31);
@@ -363,8 +396,9 @@ void menu_03(nome_pasta){
     // Verifica a verba disponivel por categoria
     float valor_gasto, valor_disponivel, valor, percentual;
 
-    char descr_categorias[8][30] = {"1 – RH\n", "2 - Encargos Sociais\n", "3 – Fundo Reserva\n", "4 - Alimentação\n",
-    "5 – Material Pedagógico\n", "6 – Concessionária\n", "7 – Oficineiro\n", "8 – Outras Despesas\n"};
+    char descr_categorias[8][40] = {REVERSE"1 – RH\n"NONE, REVERSE"2 - Encargos Sociais\n"NONE,
+    REVERSE"3 – Fundo Reserva\n"NONE, REVERSE"4 - Alimentação\n"NONE, REVERSE"5 – Material Pedagógico\n"NONE,
+    REVERSE"6 – Concessionária\n"NONE, REVERSE"7 – Oficineiro\n"NONE, REVERSE"8 – Outras Despesas\n"NONE};
 
     char linha[200];
     char *resultado;
@@ -381,7 +415,7 @@ void menu_03(nome_pasta){
 
 
     if(fp2 == NULL){
-        printf("\nLance primeiro os Limites de Verba\n");
+        printf(BG_RED"\nLance primeiro os Limites de Verba\n"NONE);
         system("pause");
         return;
     }
@@ -393,7 +427,7 @@ void menu_03(nome_pasta){
         fp = fopen(nome_arq, "r");
 
         if(fp == NULL){
-            printf("\nLance primeiro os Gastos da Categoria %s\n", descr_categorias[j]);
+            printf(BG_RED"\nLance primeiro os Gastos da Categoria %s\n"NONE, descr_categorias[j]);
             system("pause");
             return;
         }
@@ -429,7 +463,12 @@ void menu_03(nome_pasta){
         printf("\n%s--------------------------Valor Recebido: R$%.2f\n",
             descr_categorias[j],valor_disponivel);
         printf("--------------------------Valor Gasto: R$%.2f\n", valor_gasto);
-        printf("--------------------------Valor Disponível: R$%.2f\n\n", (valor_disponivel - valor_gasto));
+
+        if((valor_disponivel - valor_gasto)<0){
+            printf("--------------------------Valor Disponível: " C_RED"R$%.2f\n\n"NONE, (valor_disponivel - valor_gasto));
+        }else{
+            printf("--------------------------Valor Disponível: R$%.2f\n\n", (valor_disponivel - valor_gasto));
+        }
 
         printf("RECEBIDO\t\t\t\t\t\t");
         printf("DISPONÍVEL\n");
@@ -442,8 +481,21 @@ void menu_03(nome_pasta){
             printf("_");
         }
 
-        printf("%.2f\n",(valor_disponivel-valor_gasto));
-        printf("\t\t\t\t%.2f%c\n", percentual, '%');
+        if(percentual>100){
+            printf(C_RED"%.2f\n"NONE,(valor_disponivel-valor_gasto));
+        }else if(percentual>75 && percentual <= 100){
+            printf(C_YELLOW"%.2f\n"NONE,(valor_disponivel-valor_gasto));
+        }else{
+            printf("%.2f\n",(valor_disponivel-valor_gasto));
+        }
+
+        if(percentual>100){
+            printf(C_RED"\t\t\t\t%.2f%c\n"NONE, percentual, '%');
+        }else if(percentual>75 && percentual <= 100){
+            printf(C_YELLOW"\t\t\t\t%.2f%c\n"NONE, percentual, '%');
+        }else{
+            printf("\t\t\t\t%.2f%c\n", percentual, '%');
+        }
 
         valor_gasto = 0.0;
         l++;
@@ -483,7 +535,7 @@ void menu_04(nome_pasta){
                         system("cls");
                         cabecalho();
                     }
-                    printf("Lançamento %i", k);
+                    printf(REVERSE"Lançamento %i"NONE, k);
                     k++;
                 }
                 printf("\n");
@@ -542,7 +594,7 @@ void menu_05(nome_pasta){
 
         categoria = valida_inteiros();
         if(categoria <1 || categoria >8){
-            printf("Digite um valor valido!\n");
+            printf(BG_RED"Digite um valor valido!\n"NONE);
             system("pause");
             system("cls");
             cabecalho();
@@ -557,7 +609,7 @@ void menu_05(nome_pasta){
     fp = fopen(nome_arq2, "r");
 
     if(fp == NULL){
-        printf("\nErro ao alterar lançamento!\n");
+        printf(BG_RED"\nErro ao alterar lançamento!\n"NONE);
         system("pause");
         return;
     }
@@ -571,7 +623,7 @@ void menu_05(nome_pasta){
                     cabecalho();
                 }
                 l++;
-                printf("Lançamento %i", k);
+                printf(REVERSE"Lançamento %i"NONE, k);
                 lanc_max = k;
                 k++;
             }
@@ -592,7 +644,7 @@ void menu_05(nome_pasta){
     system("pause");
 
     if(fp == NULL){
-        printf("\nNão há gastos lançados nesta categoria\n");
+        printf(BG_RED"\nNão há gastos lançados nesta categoria\n"NONE);
         system("pause");
         return;
     }
@@ -611,7 +663,7 @@ void menu_05(nome_pasta){
         return;
         }
         if(lancamento <1 || lancamento > lanc_max){
-            printf("Digite um valor valido!\n");
+            printf(BG_RED"Digite um valor valido!\n"NONE);
         }
     }while(lancamento <1 || lancamento > lanc_max);
 
@@ -621,7 +673,7 @@ void menu_05(nome_pasta){
     fp = fopen(nome_arq2, "r");
 
     if(fp == NULL){
-        printf("\nErro ao alterar lançamento!\n");
+        printf(BG_RED"\nErro ao alterar lançamento!\n"NONE);
         system("pause");
         return;
     }
@@ -630,7 +682,7 @@ void menu_05(nome_pasta){
     fp2 = fopen(nome_arq, "w");
 
     if(fp2 == NULL){
-        printf("\nErro ao alterar lançamento!\n");
+        printf(BG_RED"\nErro ao alterar lançamento!\n"NONE);
         system("pause");
         return;
     }
@@ -652,7 +704,7 @@ void menu_05(nome_pasta){
             do{
                 dia = valida_inteiros();
                 if(dia <1 || dia >31){
-                    printf("Digite um valor valido!\n");
+                    printf(BG_RED"Digite um valor valido!\n"NONE);
                     printf("Valor: ");
                 }
             }while(dia <1 || dia >31);
@@ -723,7 +775,7 @@ void cabecalho(){
 
     gotoxy(1,1);
     printf("**************************************************************************************************\n");
-    gotoxy(15,2);
+    gotoxy(28,2);
     printf("SISTEMA DE GESTAO DE VERBAS PUBLICAS\n");
     gotoxy(1,3);
     printf("**************************************************************************************************\n");
@@ -758,7 +810,7 @@ int valida_inteiros(){
     do{
         retorno = scanf("%d", &inteiro);
         if (retorno == 0){
-            printf("Digite um valor válido!\n");
+            printf(BG_RED"Digite um valor válido!\n"NONE);
             system("pause");
             printf("Valor: ");
         }
@@ -778,11 +830,11 @@ float valida_reais(){
     do{
         retorno = scanf("%f", &real);
         if (retorno == 0){
-            printf("Digite um valor válido!\n");
+            printf(BG_RED"Digite um valor válido!\n"NONE);
             system("pause");
             printf("Valor: ");
         }else if(real < 0.0){
-            printf("Digite um valor válido!\n");
+            printf(BG_RED"Digite um valor válido!\n"NONE);
             system("pause");
             printf("Valor: ");
         }
@@ -796,7 +848,8 @@ return real;
 
 void tutorial(){
     cabecalho();
-    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf(REVERSE"Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n"NONE);
+
     printf("Nosso programa foi desenvolvido para OSCs que buscam \n");
     printf("gerenciar seus recursos governamentais com maior \n");
     printf("eficiencia e clareza. \n\n");
@@ -805,7 +858,7 @@ void tutorial(){
     system("pause");
     system("cls");
     cabecalho();
-    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf(REVERSE"Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n"NONE);
 
 
     printf("O programa possui 6 menus:\n");
@@ -823,10 +876,10 @@ void tutorial(){
     system("pause");
     system("cls");
     cabecalho();
-    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf(REVERSE"Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n"NONE);
 
 
-    printf ("\t\tMenu 1 - Lançar Gastos!\n\n");
+    printf (REVERSE"\t\tMenu 1 - Lançar Gastos!\n\n"NONE);
     printf("Esse menu tem como objetivo armazenar os gastos que a \n");
     printf("OSC realizou no mês de trabalho.\n\n");
 
@@ -844,10 +897,10 @@ void tutorial(){
     system("pause");
     system("cls");
     cabecalho();
-    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf(REVERSE"Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n"NONE);
 
 
-    printf ("\t   Menu 2 - Lançar Verbas Recebidas!\n\n");
+    printf ("\t   "REVERSE"Menu 2 - Lançar Verbas Recebidas!\n\n"NONE);
 
     printf("Esse menu tem como objetivo armazenar as verbas que \n");
     printf("o governo disponibilizou para o mês em questão.\n\n");
@@ -859,10 +912,10 @@ void tutorial(){
     system("pause");
     system("cls");
     cabecalho();
-    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf(REVERSE"Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n"NONE);
 
 
-    printf ("\t   Menu 3 - Consultar Limite Disponivel!\n\n");
+    printf ("\t   "REVERSE"Menu 3 - Consultar Limite Disponivel!\n\n"NONE);
 
     printf("Este menu serve para consultar o valor recebido e o\n");
     printf("valor gasto no período.\n\n");
@@ -870,23 +923,26 @@ void tutorial(){
     printf("Além dessas informações, o programa disponibiliza um \n");
     printf("gráfico com o valor ainda disponível e quão perto a OSC\n");
     printf("está de estourar o valor disponibilizado\n");
+    printf("Os valores ficam "C_YELLOW"Amarelos"NONE" quando passam de 75%c do Recebido\n", '%');
+    printf("e ficam "C_RED"Vermelhos"NONE" quando ultrapassam o Valor Recebido!");
+
 
     printf("\nExemplo de gráfico: \n\n\n");
     printf("6 - Concessionária\n--------------------------Valor Recebido: R$10000,00\n"
            "--------------------------Valor Gasto: R$7733,45\n"
-           "--------------------------Valor Disponível: R$2266,55""\n\n\n"
+           "--------------------------Valor Disponível: "C_YELLOW"R$2266,55"NONE"\n\n\n"
            "RECEBIDO                                                DISPONÍVEL\n"
-           "10000,00***************************************____________2266,55\n"
-           "                                77,33%c\n\n", '%');
+           "10000,00***************************************____________"C_YELLOW"2266,55\n"NONE
+           "                                "C_YELLOW"77,33%c\n\n"NONE, '%');
 
 
     system("pause");
     system("cls");
     cabecalho();
-    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf(REVERSE"Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n"NONE);
 
 
-    printf ("\t   Menu 4 - Consultar Lançamentos!\n\n");
+    printf ("\t   "REVERSE"Menu 4 - Consultar Lançamentos!\n\n"NONE);
 
     printf("Este menu serve para consultar os lançamentos realizados\n");
     printf("no período em questão.\n\n");
@@ -896,7 +952,7 @@ void tutorial(){
     printf("disponível no próximo menu!\n\n");
 
     printf("Abaixo está um exemplo de lançamento realizado: \n\n");
-    printf("Lançamento 22\n""Categoria: 5 - Material Pedagógico\n""Dia: 12\n"
+    printf(REVERSE"Lançamento 22\n"NONE"Categoria: 5 - Material Pedagógico\n""Dia: 12\n"
            "Numero: 123123123\n""Descrição: Compra de Cadernos e livros \n"
            "Nome do Favorecido: Papelaria do Joaquim\n""Valor: R$397,32\n\n\n");
 
@@ -904,10 +960,10 @@ void tutorial(){
     system("pause");
     system("cls");
     cabecalho();
-    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf(REVERSE"Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n"NONE);
 
 
-    printf ("\t   Menu 5 - Alterar Lançamentos!\n\n");
+    printf ("\t   "REVERSE"Menu 5 - Alterar Lançamentos!\n\n"NONE);
 
     printf("Este menu serve para alterar os lançamentos realizados.\n");
     printf("Ao selecionar o Menu 5 - Alterar Lançamentos, você deverá\n");
@@ -927,10 +983,10 @@ void tutorial(){
     system("pause");
     system("cls");
     cabecalho();
-    printf("Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n");
+    printf(REVERSE"Bem Vindo (a) ao Sistema de Gestão de Verbas Públicas\n\n"NONE);
 
 
-    printf ("\t\t Menu 6 - Tutorial\n\n");
+    printf ("\t\t "REVERSE"Menu 6 - Tutorial\n\n"NONE);
 
     printf("Caso queira visualizar o tutorial novamente, basta acessar\n");
     printf("o Menu 6 - Tutorial\n\n");
