@@ -1,4 +1,4 @@
-# gestaodeprojetos
+# Sistema de Gestão de Verbas Públicas
 Trabalho da disciplina de Gestão de Projetos 01-2023
 
 Instituto Federal de São Paulo - Campus Campinas
